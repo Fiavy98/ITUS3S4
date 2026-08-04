@@ -1,0 +1,51 @@
+QUOI : calculer un intervale 
+      donner : 	borne a et b
+				fonction a calculer 
+	
+Comment 
+    foction a integrer 
+		recine de 3/x au carre
+		borne a=1 et b=3
+	fonction pour trouver un puissance
+		float puissance(float nb,int puiss)
+		    int val=1 //Initialisation 
+		    for(int i=0; i inf puiss; i++)
+				val*=nb;
+				return val;
+				
+    Methode  de simpson
+		fonction simps(float a,float b,int n)
+			Ii=h/6 [f(x0)+2Sf(xi)+f(xn)+4Sf(xi+1/2]
+				x0=a et xn=b;
+				h=b-a/n
+				Trouver 2Sf(xi)
+					x=a;
+					s1=0;
+					for(int i=1; i inf n; i++)
+						x+=h;
+						s1+=f(x);   
+				Trouver 4Sf(xi+1/2)
+					xx=a + h/2;
+					s2=0;
+					for(int i=1; i inf n; i++)
+						xx+=h;
+						s2+=f(xx);     
+			    
+		return  f(a)+2*S1+f(b)+4*S2      
+		
+		fonction simps_eps(float a,float b,float eps,int *n_final)
+		int n=2
+		a1=simps(a,b,n)
+		n*=10;
+		a2=simps(a,b,n)
+		tant que a2 - a1 sup eps
+		   a1=a2
+		   n*=2
+		   a2=simps(a,b,n)
+		   
+		   *n_final=n;
+		   return a2;
+
+	                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		
+				

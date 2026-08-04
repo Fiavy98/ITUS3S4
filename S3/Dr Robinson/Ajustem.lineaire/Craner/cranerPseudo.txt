@@ -1,0 +1,34 @@
+Entrée :
+    N, x[0..N-1], y[0..N-1]
+
+Initialiser :
+    Sx = 0
+    Sy = 0
+    Sxx = 0
+    Sxy = 0
+
+POUR i = 0 à N FAIRE
+    Sx  += x[i]
+    Sy  += y[i]
+    Sxx += x[i] * x[i]
+    Sxy += x[i] * y[i]
+FIN POUR
+
+// Déterminant principal
+Delta = Sxx * N - Sx * Sx
+
+SI Delta == 0 ALORS
+    Afficher "Pas de solution"
+    STOP
+FIN SI
+
+// Déterminants de Cramer
+Delta_a = Sxy * N - Sx * Sy
+Delta_b = Sxx * Sy - Sx * Sxy
+
+// Solutions
+a = Delta_a / Delta
+b = Delta_b / Delta
+
+Sortie :
+    a, b

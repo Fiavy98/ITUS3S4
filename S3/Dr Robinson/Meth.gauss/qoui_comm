@@ -1,0 +1,11 @@
+QUOI:
+	-resoudre un systeme lineaire
+	-donnees:
+		-n : nombre des equation
+		-Matrice A
+		-vecteur du second membre
+		-vecteur solution
+		
+COMMENT : 
+	Utiliser la methode de gauss
+	

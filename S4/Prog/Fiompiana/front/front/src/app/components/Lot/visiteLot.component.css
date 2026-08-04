@@ -1,0 +1,147 @@
+/* Page */
+body{
+  background:#121212;
+  font-family:"Segoe UI", Arial, sans-serif;
+  color:#e4e4e4;
+}
+
+/* Titre */
+h2{
+  color:white;
+  margin-bottom:15px;
+}
+
+h4{
+  color:#cfcfcf;
+  margin-bottom:15px;
+}
+
+
+a:hover{
+  text-decoration:underline;
+}
+
+/* Carte formulaire */
+.visite-form,
+.oeuf-form{
+  background:#1e1e1e;
+  border-radius:12px;
+  padding:25px;
+  margin-bottom:25px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.6);
+  border:1px solid #2a2a2a;
+}
+
+/* Ligne formulaire */
+.form-row{
+  display:flex;
+  gap:20px;
+  align-items:end;
+  flex-wrap:wrap;
+}
+
+/* Groupe champ */
+.form-group{
+  display:flex;
+  flex-direction:column;
+  min-width:160px;
+  flex:1;
+}
+
+/* Label */
+.form-group label{
+  font-size:13px;
+  margin-bottom:6px;
+  color:#bdbdbd;
+  font-weight:600;
+}
+
+/* Inputs */
+.form-group input,
+.form-group select{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#2a2a2a;
+  color:white;
+  transition:0.2s;
+}
+
+/* Focus */
+.form-group input:focus,
+.form-group select:focus{
+  outline:none;
+  border-color:#166d18;
+  box-shadow:0 0 0 2px rgba(22,109,24,0.4);
+}
+
+/* Bouton */
+.form-button button{
+  padding:10px 22px;
+  border:none;
+  border-radius:8px;
+  background:#1a1882;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* Hover bouton */
+.form-button button:hover{
+  background:#1f268a;
+  transform:translateY(-1px);
+}
+
+/* Disabled */
+button:disabled{
+  background:#3a3a3a;
+  cursor:not-allowed;
+}
+
+/* Tableau */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#1e1e1e;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.6);
+}
+
+/* Header tableau */
+th{
+  background:#1e1e1e;
+  color:white;
+  padding:12px;
+  font-weight:600;
+}
+
+/* Cellules */
+td{
+  padding:10px;
+  text-align:center;
+  border-bottom:1px solid #2a2a2a;
+}
+
+/* Ligne alternée */
+tr:nth-child(even){
+  background:#232323;
+}
+
+/* Hover ligne */
+tr:hover{
+  background:#2d2d2d;
+}
+
+/* Messages */
+div[style*="color:red"]{
+  margin-top:10px;
+  font-weight:600;
+}
+
+div[style*="color:green"]{
+  margin-top:10px;
+  font-weight:600;
+}

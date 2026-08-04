@@ -1,0 +1,55 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function submitForm()
+{ 
+    var xhr; 
+    try {  xhr = new ActiveXObject('Msxml2.XMLHTTP');   }
+    catch (e) 
+    {
+        try {   xhr = new ActiveXObject('Microsoft.XMLHTTP'); }
+        catch (e2) 
+        {
+           try {  xhr = new XMLHttpRequest();  }
+           catch (e3) {  xhr = false;   }
+         }
+    }
+  
+    xhr.onreadystatechange  = function() 
+    { 
+       if(xhr.readyState  == 4){
+        if(xhr.status  == 200) {
+            var retour = JSON.parse(xhr.responseText);
+            var resultat = document.getElementById("dyn");
+	
+            resultat.value = retour[0].Nom;
+        } else {
+            document.dyn="Error code " + xhr.status;
+        }
+		}
+    }; 
+  //XMLHttpRequest.open(method, url, async)
+   xhr.open("GET", "json.php",  false); 
+   
+   //XMLHttpRequest.send(body)
+   xhr.send(null); 
+}
+
+function testSynchrone(){
+	var resultat=document.getElementById("resultat");
+	resultat.innerHTML="synchrone";
+}
+
+</script>
+</head>
+  
+<body>
+	<h1>Version Synchrone</h1>
+        <INPUT type="BUTTON" value="Submit"  onclick="submitForm()" />
+        <INPUT type="text" name="dyn" id="dyn" value="" />
+        <div id="resultat"></div>
+		
+		<INPUT type="BUTTON" value="test synchrone" onclick="testSynchrone()" />
+</body>
+</html>

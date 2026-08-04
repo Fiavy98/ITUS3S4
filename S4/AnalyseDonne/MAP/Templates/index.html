@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carte terrain intelligente</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <style>
+        #map {
+            height: 600px;
+        }
+
+        #info {
+            font-size: 20px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Carte des terrains - Antananarivo</h2>
+
+<div id="map"></div>
+
+<div id="info">Clique sur la carte</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+// ----------------------
+// 1. INITIALISATION MAP
+// ----------------------
+var map = L.map('map').setView([-18.8792, 47.5079], 12);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+.addTo(map);
+
+
+// ----------------------
+// 2. FONCTION PREDICTION (SIMULATION)
+// ----------------------
+function predictPrice(lat, lng) {
+
+    // 🔥 logique simple simulée
+    let base = 200000;
+
+    let variation = Math.abs(lat + lng) * 5000;
+
+    let price = base + variation;
+
+    return Math.round(price);
+}
+
+
+// ----------------------
+// 3. CLICK MAP
+// ----------------------
+map.on('click', function(e) {
+
+    let lat = e.latlng.lat;
+    let lng = e.latlng.lng;
+
+    let price = predictPrice(lat, lng);
+
+    document.getElementById("info").innerHTML =
+        "Prix estimé : " + price + " Ar/m²";
+
+    L.marker([lat, lng]).addTo(map)
+        .bindPopup(
+            "Terrain détecté<br>" +
+            "Prix : " + price + " Ar/m²"
+        )
+        .openPopup();
+
+});
+
+</script>
+
+</body>
+</html>

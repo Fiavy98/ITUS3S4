@@ -1,0 +1,61 @@
+Projet : Simulateur de Performance Automobile (Chronos-Car)
+1. Objectif Global
+
+Développer une application desktop permettant de simuler l'accélération d'un véhicule sur une piste définie. Le système doit comparer le temps "théorique" (calculé mathématiquement selon les specs) et le temps "réel" (déclenché manuellement par l'utilisateur).
+2. Gestion des Données (Persistence)
+
+    Source : Fichier de sauvegarde (format texte ou JSON) ou base de données.
+
+    Modèle Voiture :
+
+        Nom : Identifiant du véhicule.
+
+        Vmax : Vitesse maximale (en km/h).
+
+        Accélération : Capacité d'augmentation de la vitesse (ex: 15 km/h/s).
+
+        Note : Pour tes calculs, attention à bien convertir les km/h en m/s pour rester cohérent avec le chronomètre.
+
+3. Fonctionnement de la Simulation
+A. Phase de Départ (Compte à rebours)
+
+    Le bouton "Start" lance un compte à rebours visuel : −5,−4,−3,−2,−1,0.
+
+B. Logique d'Accélération
+
+    État Initial : Vitesse =0.
+
+    Action "Appui" : Tant que le bouton d'accélérateur est maintenu, la vitesse augmente linéairement selon la capacité d'accélération du véhicule jusqu'à atteindre Vmax.
+
+    État de Plafond : Une fois Vmax atteinte, la vitesse reste constante même si on continue d'accélérer.
+
+    Action "Relâchement" : Si on lâche l'accélérateur, la voiture maintient sa vitesse actuelle (vitesse de croisière, pas de décélération ni de freinage pour le moment).
+
+4. Interface Graphique (UI/UX)
+A. Écran de Sélection
+
+    Menu déroulant ou liste permettant de choisir un véhicule parmi ceux stockés en base/fichier.
+
+B. Tableau de Bord (Dashboard)
+
+    Animation : Un compteur de vitesse (Gauge) qui s'anime en temps réel lors de l'accélération.
+
+    Affichage Chrono : 1.  Chrono Réel : Lancé au départ et arrêté manuellement par l'utilisateur (façon "Gym Bacc").
+    2.  Temps Théorique : Calculé par le programme en fonction de la distance de la piste et des performances de la voiture.
+
+C. Contrôles
+
+    Bouton Start (Initialisation).
+
+    Bouton Accélérateur (Interaction principale).
+
+    Bouton Stop (Fin de course manuelle).
+
+5. Spécifications Techniques
+
+    Langage : Java.
+
+    Bibliothèques : Swing (Version 1) et JavaFX (Version 2).
+
+    Physique : Implémentation d'une boucle de calcul (Timer) pour mettre à jour la distance parcourue chaque seconde (ou milliseconde) :
+    Distance=Vitesse×Temps

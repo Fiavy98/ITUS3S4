@@ -1,0 +1,146 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:JxPoint.Views"
+        x:Class="JxPoint.MainWindow"
+        Title="JxPoint — Jeu de Bazooka"
+        Width="1100" Height="780"
+        Background="#0f0f13"
+        WindowStartupLocation="CenterScreen">
+
+  <DockPanel>
+
+    <!-- ═══════════════════════════════════════
+         BARRE DU HAUT : scores + indicateur
+    ═══════════════════════════════════════ -->
+    <Border DockPanel.Dock="Top"
+            Background="#1a1a22"
+            BorderBrush="#2a2a38"
+            BorderThickness="0,0,0,1"
+            Padding="24,12">
+      <Grid ColumnDefinitions="*,Auto,*">
+
+        <!-- Score J1 (gauche) -->
+        <StackPanel Grid.Column="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Spacing="10">
+          <Ellipse Width="16" Height="16" Fill="#3B82F6"/>
+          <TextBlock Name="NomJ1Label"
+                     Text="Joueur 1"
+                     Foreground="#aaa"
+                     FontSize="14"
+                     VerticalAlignment="Center"/>
+          <TextBlock Name="ScoreJ1"
+                     Text="0"
+                     Foreground="#3B82F6"
+                     FontSize="26"
+                     FontWeight="Bold"
+                     VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Indicateur de tour (centre) -->
+        <Border Grid.Column="1"
+                Background="#22222e"
+                CornerRadius="8"
+                Padding="20,8"
+                BorderBrush="#313144"
+                BorderThickness="1">
+          <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="2">
+            <TextBlock Name="LabelTour"
+                       Text="Tour du Joueur 1"
+                       Foreground="White"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Name="LabelMessage"
+                       Text=""
+                       Foreground="#f5c542"
+                       FontSize="11"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       MaxWidth="240"/>
+          </StackPanel>
+        </Border>
+
+        <!-- Score J2 (droite) -->
+        <StackPanel Grid.Column="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Spacing="10">
+          <TextBlock Name="ScoreJ2"
+                     Text="0"
+                     Foreground="#EF4444"
+                     FontSize="26"
+                     FontWeight="Bold"
+                     VerticalAlignment="Center"/>
+          <TextBlock Name="NomJ2Label"
+                     Text="Joueur 2"
+                     Foreground="#aaa"
+                     FontSize="14"
+                     VerticalAlignment="Center"/>
+          <Ellipse Width="16" Height="16" Fill="#EF4444"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- ═══════════════════════════════════════
+         BARRE DU BAS : commandes globales
+    ═══════════════════════════════════════ -->
+    <Border DockPanel.Dock="Bottom"
+            Background="#1a1a22"
+            BorderBrush="#2a2a38"
+            BorderThickness="0,1,0,0"
+            Padding="16,8">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Center"
+                  Spacing="12">
+        <Button Name="BtnNouvelle"
+                Content="✦ Nouvelle partie"
+                Background="Transparent"
+                BorderBrush="#3B82F6"
+                BorderThickness="1"
+                Foreground="#3B82F6"
+                Padding="14,6"
+                CornerRadius="4"
+                FontSize="12"/>
+        <Button Name="BtnSauvegarder"
+                Content="💾 Sauvegarder"
+                Background="Transparent"
+                BorderBrush="#555"
+                BorderThickness="1"
+                Foreground="#aaa"
+                Padding="14,6"
+                CornerRadius="4"
+                FontSize="12"/>
+        <Button Name="BtnCharger"
+                Content="📂 Charger"
+                Background="Transparent"
+                BorderBrush="#555"
+                BorderThickness="1"
+                Foreground="#aaa"
+                Padding="14,6"
+                CornerRadius="4"
+                FontSize="12"/>
+        <TextBlock Name="LabelDB"
+                   Text="● DB: non connectée"
+                   Foreground="#666"
+                   FontSize="11"
+                   VerticalAlignment="Center"
+                   Margin="16,0,0,0"/>
+      </StackPanel>
+    </Border>
+
+    <!-- ═══════════════════════════════════════
+         CONTENU PRINCIPAL : plateau
+    ═══════════════════════════════════════ -->
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto"
+                  Background="#0f0f13">
+      <views:Plateaux Name="MonPlateau"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Margin="30"/>
+    </ScrollViewer>
+
+  </DockPanel>
+</Window>

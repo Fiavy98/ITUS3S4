@@ -1,0 +1,25 @@
+toud les class
+Type.java
+   tous les type (Pion,Roi,etc)
+Color.java
+    couleur noir et blanc
+Piece.java 
+    chaque Piece contient Type , Color et Position
+Position.java
+    Pour la premiere position dans la table chaque Piece selon leur type et capable de se 
+    deplacer 
+
+Data.java (package data)
+pour remplir le donne;
+
+ChessTable.java
+   table d'echec effectuer par 2 boucle  
+   chaque casse avait d'adresse 
+   pour le table 
+      on a un JPanel de taile 8 ligne et 8 clonne : setLayout (new GirdLayout(8,8));
+    pour la casse 
+    on a aussi un JPanel qui contient les casse
+    a chaque tour du boucle on cree un nouveau casse
+    pour la couleur de la casse 
+    if (row + col)%2==0 (pair) la casse est blanc
+    else gris

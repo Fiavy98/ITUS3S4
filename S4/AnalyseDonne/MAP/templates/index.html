@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carte Terrain Intelligente</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            margin:0;
+            font-family: Arial, sans-serif;
+            background:#f4f6f9;
+        }
+
+        h2{
+            padding:15px;
+            margin:0;
+            background:#0d6efd;
+            color:white;
+        }
+
+        #map{
+            height: 600px;
+            width:100%;
+        }
+
+        /* =========================
+           FORMULAIRE
+        ========================= */
+        .form-container{
+
+            position:absolute;
+            top:80px;
+            right:20px;
+
+            width:320px;
+
+            background:white;
+
+            padding:20px;
+
+            border-radius:10px;
+
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+
+            z-index:1000;
+
+            display:none;
+        }
+
+        .form-container h3{
+            margin-top:0;
+        }
+
+        label{
+            display:block;
+            margin-top:10px;
+            font-weight:bold;
+        }
+
+        input, select{
+
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+
+            border:1px solid #ccc;
+            border-radius:6px;
+        }
+
+        button{
+
+            width:100%;
+            margin-top:15px;
+
+            padding:12px;
+
+            border:none;
+            border-radius:6px;
+
+            background:#0d6efd;
+            color:white;
+
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#084298;
+        }
+
+        /* =========================
+           RESULTAT
+        ========================= */
+        #result{
+
+            margin-top:15px;
+
+            padding:12px;
+
+            background:#d1e7dd;
+
+            border-left:5px solid #198754;
+
+            border-radius:5px;
+
+            font-weight:bold;
+        }
+
+        /* =========================
+           TABLEAU
+        ========================= */
+        .table-container{
+            padding:20px;
+        }
+
+        table{
+
+            width:100%;
+            border-collapse: collapse;
+            background:white;
+        }
+
+        th, td{
+
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:center;
+        }
+
+        th{
+            background:#0d6efd;
+            color:white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h2>Carte des Terrains Intelligente - Antananarivo</h2>
+
+<div id="map"></div>
+
+<!-- =========================
+     FORMULAIRE
+========================= -->
+<div class="form-container" id="formBox">
+
+    <h3>Ajouter un terrain</h3>
+
+    <form id="terrainForm">
+
+        <label>Latitude</label>
+        <input type="text" id="lat" readonly>
+
+        <label>Longitude</label>
+        <input type="text" id="lng" readonly>
+
+        <label>Accès</label>
+        <select id="acces">
+            <option value="bon">Bon</option>
+            <option value="moyen">Moyen</option>
+            <option value="mauvais">Mauvais</option>
+        </select>
+
+        <label>Distance (km)</label>
+        <input type="number" id="distance">
+
+        <label>Bâtissable</label>
+        <select id="batisable">
+            <option value="oui">Oui</option>
+            <option value="non">Non</option>
+        </select>
+
+        <label>Distance JIRAMA (m)</label>
+        <input type="number" id="distance_jirama">
+
+        <label>Papier</label>
+        <select id="papier">
+            <option value="titre_borne">Titre borné</option>
+            <option value="cadastre">Cadastre</option>
+            <option value="fifanolorana">Fifanolorana</option>
+        </select>
+
+        <!-- <label>Commune</label> -->
+        <select id="commune" value="Ivandry">
+            <!-- <option value="ivandry">Ivandry</option>
+            <option value="alasora">Alasora</option>
+            <option value="analamahitsy">Analamahitsy</option>
+            <option value="ambohidratrimo">Ambohidratrimo</option>
+            <option value="ankadilalana">Ankadilalana</option>
+            <option value="talatamaty">Talatamaty</option>
+            <option value="ivato">Ivato</option>
+            <option value="ambohimanarina">Ambohimanarina</option> -->
+        </select>
+
+        <button type="submit">
+            Prédire le prix
+        </button>
+
+    </form>
+
+    <div id="result" style="display:none;"></div>
+
+</div>
+
+<!-- =========================
+     TABLEAU RESULTAT
+========================= -->
+<div class="table-container">
+
+    <h3>Historique des prédictions</h3>
+
+    <table id="historyTable">
+
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Commune</th>
+            <th>Prix estimé</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+    // =========================
+    // MAP
+    // =========================
+    let map = L.map('map')
+        .setView([-18.8792, 47.5079], 12);
+
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    ).addTo(map);
+
+    // =========================
+    // VARIABLES
+    // =========================
+    let currentLat = 0;
+    let currentLng = 0;
+
+    let historyCount = 0;
+
+    // =========================
+    // CLICK MAP
+    // =========================
+    map.on('click', function(e){
+
+        currentLat = e.latlng.lat;
+        currentLng = e.latlng.lng;
+
+        // afficher formulaire
+        document.getElementById("formBox").style.display = "block";
+
+        // injecter coordonnees
+        document.getElementById("lat").value =
+            currentLat.toFixed(6);
+
+        document.getElementById("lng").value =
+            currentLng.toFixed(6);
+
+    });
+
+    // =========================
+    // PREDICTION SIMULATION
+    // =========================
+    function predictPrice(data){
+
+        let base = 100000;
+
+        if(data.acces === "bon"){
+            base += 150000;
+        }
+
+        if(data.acces === "moyen"){
+            base += 50000;
+        }
+
+        if(data.batisable === "oui"){
+            base += 70000;
+        }
+
+        if(data.papier === "titre_borne"){
+            base += 120000;
+        }
+
+        base -= data.distance * 5000;
+
+        base -= data.distance_jirama * 20;
+
+        return Math.round(base);
+    }
+
+    // =========================
+    // SUBMIT FORM
+    // =========================
+    document.getElementById("terrainForm")
+        .addEventListener("submit", function(event){
+
+        event.preventDefault();
+
+        let data = {
+
+            acces:
+                document.getElementById("acces").value,
+
+            distance:
+                parseFloat(
+                    document.getElementById("distance").value
+                ),
+
+            batisable:
+                document.getElementById("batisable").value,
+
+            distance_jirama:
+                parseFloat(
+                    document.getElementById("distance_jirama").value
+                ),
+
+            papier:
+                document.getElementById("papier").value,
+
+            commune:
+                document.getElementById("commune").value
+        };
+
+        // prediction
+        let price = predictPrice(data);
+
+        // afficher resultat
+        let resultDiv =
+            document.getElementById("result");
+
+        resultDiv.style.display = "block";
+
+        resultDiv.innerHTML =
+            "Prix estimé : " +
+            price.toLocaleString() +
+            " Ar/m²";
+
+        // marker
+        L.marker([currentLat, currentLng])
+            .addTo(map)
+            .bindPopup(
+                "<b>Terrain détecté</b><br>" +
+                "Commune : " + data.commune + "<br>" +
+                "Prix : " +
+                price.toLocaleString() +
+                " Ar/m²"
+            );
+
+        // =========================
+        // AJOUT TABLEAU
+        // =========================
+        historyCount++;
+
+        let table =
+            document.querySelector("#historyTable tbody");
+
+        let row = table.insertRow();
+
+        row.innerHTML = `
+            <td>${historyCount}</td>
+            <td>${currentLat.toFixed(5)}</td>
+            <td>${currentLng.toFixed(5)}</td>
+            <td>${data.commune}</td>
+            <td>${price.toLocaleString()} Ar/m²</td>
+        `;
+
+    });
+
+</script>
+
+</body>
+</html>

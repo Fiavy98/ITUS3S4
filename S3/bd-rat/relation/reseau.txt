@@ -1,0 +1,38 @@
+$TTL    604800
+@       IN      SOA     ns1.example.com. admin.example.com. (
+                      1         ; Serial
+                 604800         ; Refresh
+                  86400         ; Retry
+                2419200         ; Expire
+                 604800 )       ; Negative Cache TTL
+
+; Serveurs de noms
+@       IN      NS      ns1.example.com.
+
+; Enregistrements de noms
+ns1     IN      A       192.168.1.1
+www     IN      A       192.168.1.2
+
+
+sudo named-checkconf
+sudo named-checkzone example.com /etc/bind/zones/db.example.com
+
+
+sudo systemctl restart bind9
+
+
+@       IN      SOA     ns1.example.com. admin.example.com. (
+                      1         ; Serial
+                 604800         ; Refresh
+                  86400         ; Retry
+                2419200         ; Expire
+                 604800 )       ; Negative Cache TTL
+
+
+nslookup example.com 127.0.0.1
+
+
+
+
+
+

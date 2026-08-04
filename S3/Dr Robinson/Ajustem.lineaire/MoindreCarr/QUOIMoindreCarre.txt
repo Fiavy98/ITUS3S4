@@ -1,0 +1,31 @@
+QUOI
+	-on veut une droite y=ax+b
+	-Trouver le coefficients a et b 
+	-Donnee : la Dimmension N
+			 le point x0 à xn , y0 à yn
+	
+
+COMMENT 
+	Methode de Moindre carre
+Entrée :
+  - tableaux x[0..N-1], y[0..N-1]
+  - N : nombre de points
+
+Initialiser :
+  sumX = 0
+  sumY = 0
+  sumXY = 0
+  sumX2 = 0
+
+Pour i de 0 à N :
+  sumX  += x[i]
+  sumY  += y[i]
+  sumXY += x[i] * y[i]
+  sumX2 += x[i] * x[i]
+
+Calculer :
+  a = (N*sumXY - sumX*sumY) / (N*sumX2 - sumX*sumX)
+  b = (sumY - a*sumX) / N
+
+Sortie :
+  droite y = a x + b

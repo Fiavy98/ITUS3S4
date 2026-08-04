@@ -1,0 +1,13 @@
+INSERT INTO type(nom) VALUES
+('4x4'),
+('taxi Brousse');
+
+INSERT INTO voiture(id_type,vMax,vMin,logueur,largeur) VALUES
+(1,100,50,120,100),
+(2,80,20,200,100);
+
+INSERT INTO status(nom) VALUES
+('depart'),
+('arrive'),
+('en panne'),
+('en pausse');

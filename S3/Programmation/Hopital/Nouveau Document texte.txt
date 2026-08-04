@@ -1,0 +1,5 @@
+SQL>-create user vaniala identified by vaniala;
+SQL>-grant dba to vaniala;
+io anaty cli oracle
+dia veo ao amin'ilay directory misy an'ilay dmp
+console > imp vaniala/vaniala file=vaniala1311.dmp full=y

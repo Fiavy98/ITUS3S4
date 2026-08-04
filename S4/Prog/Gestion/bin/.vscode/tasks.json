@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run app (mvn exec:java)",
+			"type": "shell",
+			"command": "mvn",
+			"args": [
+				"-q",
+				"-DskipTests",
+				"compile",
+				"exec:java"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run app (mvn exec:java -e)",
+			"type": "shell",
+			"command": "mvn",
+			"args": [
+				"-e",
+				"-DskipTests",
+				"compile",
+				"exec:java"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

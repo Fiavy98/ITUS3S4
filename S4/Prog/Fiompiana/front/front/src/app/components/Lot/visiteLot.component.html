@@ -1,0 +1,157 @@
+<h2>Visite Lot</h2>
+
+<div *ngIf="error" style="color:red">{{error}}</div>
+
+<form class="visite-form" (ngSubmit)="save()">
+  <h4>Ajouter un événement</h4>
+  <div class="form-row">
+
+    <div class="form-group">
+      <label>Lot</label>
+      <select name="lot_id" [(ngModel)]="formModel.lot_id" required>
+        <option value="" disabled selected>-- Choisir un lot --</option>
+        <option *ngFor="let l of lots" [value]="l.id">
+          {{ l.nom }} ({{ l.race_nom }})
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Date visite</label>
+      <input type="date" name="date_visite" [(ngModel)]="formModel.date_visite" required>
+    </div>
+
+    <div class="form-group">
+      <label>Mortalité lahy</label>
+      <input type="number" name="lahy_maty" [(ngModel)]="formModel.lahy_maty">
+    </div>
+
+    <div class="form-group">
+      <label>Mortalité vavy</label>
+      <input type="number" name="vavy_maty" [(ngModel)]="formModel.vavy_maty">
+    </div>
+
+    <div class="form-group">
+      <label>Œufs</label>
+      <input type="number" name="nb_atody" [(ngModel)]="formModel.nb_atody">
+    </div>
+
+    <div class="form-group">
+      <label>Œufs détruits</label>
+      <input type="number" name="simba" [(ngModel)]="formModel.simba">
+    </div>
+
+    <div class="form-button">
+      <button type="submit" [disabled]="saving">Créer</button>
+    </div>
+
+  </div>
+</form>
+
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="!loading && !visites.length">Aucune donnée.</div>
+
+<table border="1" *ngIf="!loading && visites.length">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Lot</th>
+      <th>Date visite</th>
+      <th>Mortalité lahy</th>
+      <th>Mortalité vavy</th>
+      <th>Œufs</th>
+      <th>Simba</th>
+    </tr>
+  </thead>
+
+<tbody>
+<tr *ngFor="let v of visites">
+<td>{{v.id}}</td>
+<td>{{v.lot_nom || v.lot_id}}</td>
+<td>{{v.date_visite | date:'yyyy-MM-dd'}}</td>
+<td>{{v.lahy_maty}}</td>
+<td>{{v.vavy_maty}}</td>
+<td>{{v.nb_atody}}</td>
+<td>{{v.simba}}</td>
+</tr>
+</tbody>
+
+</table>
+
+<h4>Atody → Avadika → Akoho (Lot vaovao)</h4>
+<form class="oeuf-form" (ngSubmit)="createLotFromOeuf()">
+
+<div class="form-row">
+
+<div class="form-group">
+<label>Lot source</label>
+<select name="lot_source_id" [(ngModel)]="oeufLot.lot_source_id" required>
+  <option value="" disabled selected>Choisir un lot</option>
+  <option *ngFor="let l of lots" [value]="l.id">
+    {{l.nom}} (ID {{l.id}})
+  </option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Œufs utilisés</label>
+<input type="number"
+name="nb_oeuf_utilise"
+[(ngModel)]="oeufLot.nb_oeuf_utilise"
+required>
+</div>
+
+<div class="form-group">
+<label>Œufs détruits</label>
+<input type="number"
+name="simba"
+[(ngModel)]="oeufLot.simba">
+</div>
+
+<div class="form-group">
+<label>Nom nouveau lot</label>
+<input type="text"
+name="nom"
+[(ngModel)]="oeufLot.nom"
+required>
+</div>
+
+<div class="form-group">
+<label>Date entrée</label>
+<input type="date"
+name="date_entree"
+[(ngModel)]="oeufLot.date_entree"
+required>
+</div>
+
+<div class="form-group">
+<label>% lahy (optionnel)</label>
+<input type="number"
+name="percent_lahy"
+[(ngModel)]="oeufLot.percent_lahy"
+min="0" max="100">
+</div>
+
+<div class="form-group">
+<label>% vavy (optionnel)</label>
+<input type="number"
+name="percent_vavy"
+[(ngModel)]="oeufLot.percent_vavy"
+min="0" max="100">
+</div>
+
+<div class="form-button">
+<button type="submit" [disabled]="oeufLoading">
+Créer lot
+</button>
+</div>
+
+</div>
+
+</form>
+
+<div *ngIf="message" style="color:green">{{message}}</div>
+<div *ngIf="errorOeuf" style="color:red">{{errorOeuf}}</div>
+<a [routerLink]="['/lots']">Retour</a><br><br>
+<a [routerLink]="['/lots/situation']">Situation Lot...</a>

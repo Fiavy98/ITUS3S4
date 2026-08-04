@@ -1,0 +1,10 @@
+INSERT INTO ville(nom) VALUES ('Tananarivo');
+INSERT INTO ville(nom) VALUES ('Antsirabe');
+INSERT INTO ville(nom) VALUES ('Ambositra');
+
+INSERT INTO route(rn,IdVille_depart,idVille_arriver,longueur_km) VALUES('RN7',1,3,280);
+
+INSERT INTO route_ville(id_route,id_ville,position_km) VALUES(1,1,0);
+INSERT INTO route_ville(id_route,id_ville,position_km) VALUES(1,2,180);
+INSERT INTO route_ville(id_route,id_ville,position_km) VALUES(1,3,280);
+

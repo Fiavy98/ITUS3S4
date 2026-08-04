@@ -1,0 +1,26 @@
+base 
+voiture
+    -id
+    -type
+    -vmax/min
+    -longueur/largeur
+Route
+    -id
+    -rn
+    -pt_depart
+    -pt_arriver
+    -km
+vlille
+    -id
+    -nom
+route_ville
+    -id
+    -id_route
+    -id_ville
+    -position_km
+trou
+    -id_route
+    -position_km
+    -profondeur(cm)
+    -largeur(cm)
+    -etat

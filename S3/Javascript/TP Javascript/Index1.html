@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Index </title>
+    <style>
+       body {
+ font-family: Arial, sans-serif;
+ margin: 20px;
+ background-color: #f0f0f0;
+ }
+ button {
+ font-size: 18px;
+ padding: 10px 20px;
+ cursor: pointer;
+ background-color: #644257;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ margin-right: 10px;
+ margin-bottom: 20px;
+ }
+ table {
+ border-collapse: collapse;
+ width: 100%;
+ margin-bottom: 20px;
+ }
+ th, td {
+ border: 1px solid #ddd;
+ padding: 8px;
+ text-align: left;
+ }
+ th {
+ background-color: #43384b;
+ color: white;
+ }
+ tr:nth-child(even) {
+ background-color: #f2f2f2;
+ }
+ img.drapeau {
+ width: 50px;
+ height: auto;
+ } 
+    </style>
+</head>
+<body>
+    <button onclick="afficherPays()">Afficher tous les pays</button>
+    <button onclick="afficherPaysAleatoire()">Afficher un pays aléatoire</button>
+    <a href="resultat.html"><button>Voir les résultats</button></a>
+    <div id="tableauTousPays"></div>
+    <div id="tableauPaysAleatoire"></div>
+
+    <script>
+        const pays = [
+ { nom: "France", capitale: "Paris", superficie: 551695, population: 67391582, drapeau: "../drapeaux/ france.jpeg", codePays: "FR" },
+ { nom: "Allemagne", capitale: "Berlin", superficie: 357022, population: 83240525, drapeau: "../drapeaux/allemagne.jpeg", codePays: "DE" },
+ { nom: "Italie", capitale: "Rome", superficie: 301340, population: 59554023, drapeau:"../drapeaux/italie.jpeg" , codePays: "IT" },
+ { nom: "Espagne", capitale: "Madrid", superficie: 505990, population: 47351567, drapeau:"../drapeaux/espagne.jpeg" , codePays: "ES" },
+ { nom: "Royaume-Uni", capitale: "Londres", superficie: 243610, population: 67215293, drapeau:"../drapeaux/royaume-uni.jpeg" , codePays: "GB" },
+ { nom: "Pologne", capitale: "Varsovie", superficie: 312685, population: 37846611, drapeau:"../drapeaux/pologne.jpeg" , codePays: "PL" },
+ { nom: "Suede", capitale: "Stockholm", superficie: 450295, population: 10353442, drapeau:"../drapeaux/suede.jpeg" , codePays: "SE" },
+ { nom: "Norvege", capitale: "Oslo", superficie: 385207, population: 5378857, drapeau:"../drapeaux/norvege.jpeg" , codePays: "NO" },
+ { nom: "Finlande", capitale: "Helsinki", superficie: 338424, population: 5530719, drapeau:"../drapeaux/finlande.jpeg", codePays: "FI" },
+ { nom: "Danemark", capitale: "Copenhague", superficie: 43094, population: 5831404, drapeau:"../drapeaux/Danemark.jpeg" , codePays: "DK" }
+ { nom: "Pays-Bas", capitale: "Amsterdam", superficie: 41543,population: 67391582, drapeau: "../drapeaux/pays-bas.jpeg" codePays: "NL"  },
+ { nom: "Belgique", capitale: "Bruxelles",population: 67391582, drapeau: "../drapeaux/belgique.jpeg" ,codePays: "BE"  },
+ { nom: "Autriche", capitale: "Vienne", superficie: 83871,population: 67391582, drapeau: "../drapeaux/Autriche.jpeg" ,,codePays: "AT"  },
+ { nom: "Suisse", capitale: "Berne", superficie: 41277,population: 67391582, drapeau: "../drapeaux/suisse.jpeg" ,codePays: "CH"  },
+ { nom: "Portugal", capitale: "Lisbonne", superficie: 92090,population: 67391582, drapeau: "../drapeaux/portugal.jpeg" ,codePays: "PT"  },
+ { nom: "Grece", capitale: "Athenes", superficie: 131957,population: 67391582, drapeau:"../drapeaux/grece.jpeg"  c,odePays: "GR"  },
+ { nom: "République tcheque", capitale: "Prague", superficie: 78867,population: 67391582, drapeau:"../drapeaux/republique-tcheque.jpeg"  ,codePays: "CZ"  },
+ { nom: "Hongrie", capitale: "Budapest", superficie: 93028,population: 67391582, drapeau:"../drapeaux/hongrie.jpeg" ,codePays: "HU"   },
+ { nom: "Irlande", capitale: "Dublin", superficie: 70273 ,population: 67391582, drapeau: "../drapeaux/irlande.jpeg",codePays: "IE" },
+ { nom: "Roumanie", capitale: "Bucarest", superficie: 238397,population: 67391582, drapeau: "../drapeaux/roumanie.jpeg", codePays: "RO" }
+ ];
+
+        function creerLigneTableau(pays) {
+            return `<tr>
+ <td>${pays.nom}</td>
+ <td>${pays.capitale}</td>
+ <td>${pays.superficie}</td>
+ <td>${pays.population}</td>
+ <td><img src="${pays.drapeau}" alt="Drapeau ${pays.nom}" class="drapeau"></td>
+ <td>${pays.codePays}</td>
+ </tr>`;   
+        }
+
+        function afficherPays() {
+            console.log(pays);
+ let tableauHTML = `<table>
+ <tr>
+ <th>Nom</th>
+ <th>Capitale</th>
+ <th>Superficie (km²)</th>
+ <th>Population</th>
+ <th>Drapeau</th>
+ <th>Code Pays</th>
+ </tr>`;
+ pays.forEach(pays => {
+ tableauHTML += creerLigneTableau(pays);
+ });
+ tableauHTML += '</table>';
+ document.getElementById('tableauTousPays').innerHTML = tableauHTML;
+ 
+        }
+
+        function afficherPaysAleatoire() {
+            const paysAleatoire = pays[Math.floor(Math.random() * pays.length)];
+            console.log(paysAleatoire);
+            
+    
+            let compteurs = JSON.parse(localStorage.getItem('compteursAffichage')) || {};
+            compteurs[paysAleatoire.nom] = (compteurs[paysAleatoire.nom] || 0) + 1;
+            localStorage.setItem('compteursAffichage', JSON.stringify(compteurs));
+            
+            let tableauHTML = `<table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Capitale</th>
+                    <th>Superficie (km²)</th>
+                    <th>Population</th>
+                    <th>Drapeau</th>
+                    <th>Code Pays</th>
+                </tr>`;
+            tableauHTML += creerLigneTableau(paysAleatoire);
+            tableauHTML += '</table>';
+            document.getElementById('tableauPaysAleatoire').innerHTML = tableauHTML;
+        }
+    </script>
+</body>
+</html>
+	

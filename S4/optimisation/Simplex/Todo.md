@@ -1,0 +1,11 @@
+- equation
+    - id
+    - type
+    - nbVariable
+    - coeff
+- contrainte
+    - idEquation
+    - variable
+    - coeff
+    - IdContrainte
+    - value

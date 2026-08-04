@@ -1,0 +1,15 @@
+# Démarrage de la base de données MySQL (conteneur Docker)
+docker start mysql-container
+
+# Backend Node.js (natif)
+cd back
+npm install
+npm start
+
+# Frontend Angular (natif)
+cd ../front/front
+npm install
+npx ng serve --host 0.0.0.0 --port 4200
+
+# (Optionnel) se connecter à MySQL depuis le host :
+# mysql -h 127.0.0.1 -P 3306 -u root -proot

@@ -1,0 +1,33 @@
+QUOI :
+	Construire une courbe qui passe exactement par tous les donnees
+	Donnes : Dimension N
+			pt x0 a xn , y0 a yn
+			X la valeur a estimer 
+			
+COMMENT :
+	Meth.  Spline Cubique 
+			Limiter leur degree
+			On definit l'interpolation par morcheaux et non globalement
+			
+	Peudo Code 
+		Entrée : x[], y[], N, X
+		Sortie : S(X) = valeur interpolée
+
+		1. Calculer hi = x[i+1]-x[i] pour i = 0..N-2
+
+		2. Construire le système tridiagonal pour c[i] :
+			- 2*h[i-1] + 4*h[i] + 2*h[i+1] ... etc
+			- conditions aux extrémités : c[0]=0, c[N-1]=0
+
+		3. Résoudre le système pour obtenir tous les c[i]
+
+		4. Pour chaque intervalle i = 0..N-2 :
+			a_i = y[i]
+			b_i = (y[i+1]-y[i])/h[i] - (h[i]/3)*(2*c[i] + c[i+1])
+			d_i = (c[i+1] - c[i]) / (3*h[i])
+
+		5. Identifier l'intervalle [x[i], x[i+1]] contenant X
+
+		6. Calculer S(X) = a[i] + b[i]*(X-x[i]) + c[i]*(X-x[i])^2 + d[i]*(X-x[i])^3
+
+		7. Retourner S(X)

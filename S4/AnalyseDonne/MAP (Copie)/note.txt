@@ -1,0 +1,11 @@
+- Model : la relation entre variable explicatiff et expliquee considerer comme le bonne prediction
+    - car on ne toujours pas recalculet le requette , on le stock dans un Model
+    source /home/kamado/ITU/S4/AnalyseDonne/MAP/.venv/bin/activate
+
+    pip install flask pandas scikit-learn joblib
+python app.py
+Peut tu stocker le resultat dans un tableau donc on peut ajouter un 
+donees  plusieurs fois et on peut voir plusieurs prediction 
+avec le colonne necessaire
+
+http://127.0.0.1:5000/

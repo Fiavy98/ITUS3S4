@@ -1,0 +1,10 @@
+src/mydb/console/FonctionCommand.java
+src/mydb/console/Console.java
+src/mydb/utils/Prompt.java
+src/mydb/Main.java
+src/mydb/core/TableManager.java
+src/mydb/core/UserManager.java
+src/mydb/core/request/Where.java
+src/mydb/core/request/Join.java
+src/mydb/core/request/Select.java
+src/mydb/core/DatabaseManager.java

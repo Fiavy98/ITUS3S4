@@ -1,0 +1,120 @@
+#include <stdlib.h>
+#include <stdio.h>
+void getData(float *dim,float *xd,float *yd);
+void gplot(float xd,float yd,float dim,float s2,float a,float b,float xd[],float xd[],-2,3);
+void splineCoefs(float xd,float yd,float dim,float **vs2,float **va, float **vb);
+
+float *newVect(int dim);
+void problem(char* message);
+
+void solveS2(float lambda, float rho, float *Y, float *s2, int dim);
+void tridiag(float *a, float *b, float *c,float *r, float *u, int n);
+
+int main(void){
+	int dim=2;
+	float *xd=NULL,	*yd=NULL,	//Les donnees 
+			*s2=NULL,	*a=NULL,	*b=NULL	//les coefficients de spline cubique
+	
+///Get data
+	getData(&dim,&xd,&yd);
+		
+///Traitement
+	splineCoefs(xd,yd,dim,&s2,&a,&b);
+	
+///Resultat
+	gplot(xd,yd,dim,s2,a,b,xd[0],xd[dim-1],-2,3);
+	
+	return 0;
+}
+
+void getData(float *dim,float *xd,float *yd){
+	
+}
+
+void gplot(float xd,float yd,float dim,float s2,float a,float b,float xd[],float xd[],-2,3){}
+
+void splineCoefs(float xd,float yd,float dim,float **vs2,float **va, float **vb){
+	float lambda=0.5,	rho=0.5,	dx=0:	//Si les points sont equidistants
+	float *Y=NULL;
+	int j=0;
+	float *s2=newVect(dim), s2[0]=0, sÉ=[dim-2]=0;
+	float* a=newVect(dim-1), float* b=newVect(dim-1);
+	
+///Second membre du systeme tridag. sym. pour le calcul de *S2
+	dx=xd[1] - xd[0];
+	Y=newVect(dim-1);
+	
+	for(j=0; j<dim -1; j++){
+		Y[j-1]=6./(dx+dx)*(yd[j+1]-yd[j])/dx - (yd[j]-yd[j-1]/dx);
+    }
+    
+///Calcul de de *S2
+	s2++;
+	solveS2(lamda,rho,Y,s2,dim-1);
+	s2--;
+	
+///Calcul de *a et *b
+	for(j=0; j<dim -1; j++){
+		a[j]yd[j]/dx	- s2[j]*dx/6;
+		b[j]=yd[j+1]/dx	- s2[j+1]*dx/6;
+		
+		print("a[%d]=%f\tbb[%d]=%f\n",j,a[j],j,b[j]);
+    }
+    
+    *va=a; *vb=b; *vs2=s2;
+    free(Y);
+    
+}
+
+void solveS2(float lambda, float rho, float *Y, float *s2, int dim){
+    float *B=NULL, *C=NULL, *D=NULL;
+    int j=0;
+
+    B = newVect(dim);		// diagonale principale
+    C = newVect(dim);		// première surdiagonale
+    D = newVect(dim);		// première sous-diagonale
+    for(j=0; j<dim; j++){
+        B[j] = 2;
+        C[j] = lambda;		// on suppose que les points sont équidistant
+        D[j] = rho;			// donc c_j et d_j sont constant
+    }
+    tridiag(D,B,C,Y,s2,dim);
+ }
+
+/* Tridiagonal matrix solver.  Nonzero diagonals of the matrix are
+   represented by arrays a, b, and c (see Numerical Recipes).
+   All arrays start at 0
+ [b_0 c_0                  ] [ u_0 ]   [ r_0 ]
+ [a_1 b_1 c_1              ] [ u_1 ]   [ r_1 ]
+ [          ...            ] [ ... ] = [ ... ]
+ [        a_n-2 b_n-2 c_n-2] [u_n_2]   [r_n-2]
+ [              a_n-1 b_n-1] [u_n-1]   [r_n-1]
+ */
+void tridiag(float *a, float *b, float *c,float *r, float *u, int n){
+    int j;
+    float bet, gam[n];
+
+    if (b[0] == 0.0) problem("Division par 0");
+    u[0] = r[0] / (bet=b[0]);
+    for (j = 1; j < n; j++) {
+        gam[j] = c[j-1]/bet;
+        bet = b[j] - a[j]*gam[j];
+        if (bet == 0.0) problem("Division par 0");
+        u[j] = (r[j]-a[j]*u[j-1]) / bet;
+    }
+    for (j = n-2; j >= 0; j--)
+        u[j] -= gam[j+1]*u[j+1];
+}
+
+
+float *newVect(int dim){
+	float* v=NULL;
+	v = malloc(dim*sizeof(float));
+	if(v==NULL) problem("Ne peut allouer un vecteur");
+	return v;
+}
+
+void problem(char* message){
+	printf("%s\n", message);
+	exit(2);
+}

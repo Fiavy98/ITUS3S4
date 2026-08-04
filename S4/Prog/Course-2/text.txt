@@ -1,0 +1,50 @@
+je vais t'expliquer ce que je voudrais faire avec mon code :
+
+-premierement je voudrais pourvoir changer la  longueur du terrain
+ de course avec un champs avec le choix de voiture.
+
+-sur le tableau de bord du vitesse affiche dedans les nombres
+ que la vitesse de la voiture puisse avoir par rapport a sa capaciter 
+ de vitesse par 1s (bien sur le seuil est la vitesse max).
+
+-le chronos de la course ne se lance qu'apres avoir cliker sur le button 
+start et se stpo si stop.
+
+-le chronos voiture qui commence par -5 se lance aussi juste apres le button 
+start mais se stop quand la voiture arrive sur sa ligne d'arrive(a savoir que
+le second ou la voiture commence a accelerer est pris en compte ,
+si elle s'accelere apres le -3 seconde son chronos commence par celui
+ci donc il peu commence a tout moment) je veux aussi un champs pour changer le
+-5s au cas ou c'est editable .
+
+-la vitesse que la voiture a eu a son arrive doit etre afficher aussi.
+
+-la vitesse de la voiture augmente a l'acceleraction est de suite : 
+si sa capaciter est de 20km/s si je click maintenir sur acceleraction 1s = 20km/h,
+ 2s=40km/h , 3s =60km/h et si je lache a ce moment le 60km devient la vitesse  
+ constante et si je decide de remaintenir ca continue a monter et ainsi de suite 
+
+
+
+Ajoute cette fonctionnalite
+un autre capacite du voiture et ajoute donc dans la page feetre  pour ajouter un voiture cette nosse
+    - nosse en kilo
+    - capacite nosse en k
+    - consomation nosse k par minute 
+    - % boutaille du nosse 
+    - nosse est un bouton dans l'affichage 
+    - quand on le clic : 
+        - Acceleration avec le cont e: en km/h par seconde
+        - variation d'acceleration : km/h par seconde par seconde  
+        - la capacite du nosse diminue (le %)
+
+    - quand on relache le boutton nosse son capacte revient au normale
+    - l'acceleration devient normal
+
+
+
+
+    Peut tu ajouter cette fonctionnalite
+        - fleche a gauche de mon clavier qui est comme le bouton start
+        - fleche vers bas comme le stope
+        - le entrer pour accelerer

@@ -1,0 +1,2 @@
+- dataset : donnees
+- model : machine qui apprend a partir de ce donnees

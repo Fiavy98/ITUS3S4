@@ -1,0 +1,100 @@
+package acte;
+
+import ui.*;
+import db.*;
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.Vector;
+
+public class ActionOrdonnance implements ActionListener {
+    // description
+    private String idORD;
+    private JTextField txtDate, txtNbJr, txtObservation;
+    private JList<String> lsMedicaments;
+    private Map<String, JTextField> qteMap;
+
+    // client
+    private JTextField nom, telephone, adresse;
+    private JComboBox<String> lsSociete;
+    private Map<String, String> MapSos;
+    
+    // Zone result
+    private JTextArea txtResultat;
+
+    public ActionOrdonnance(String idORD, JTextField txtDate, JTextField txtNbJr, JTextField txtObservation,
+                            JList<String> lsMedicaments, Map<String, JTextField> qteMap,
+                            JTextField nom, JTextField telephone, JTextField adresse,
+                            JComboBox<String> lsSociete, JTextArea txtResultat,
+                            Map<String, String> MapSos) {
+        
+        this.idORD=idORD;
+        this.txtDate = txtDate;
+        this.txtNbJr = txtNbJr;
+        this.txtObservation = txtObservation;
+        this.lsMedicaments = lsMedicaments;
+        this.qteMap = qteMap;
+
+        this.nom = nom;
+        this.telephone = telephone;
+        this.adresse = adresse;
+        this.lsSociete = lsSociete;
+        this.MapSos = MapSos;
+
+
+        this.txtResultat = txtResultat;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            String dt = txtDate.getText();
+            int nbJr = Integer.parseInt(txtNbJr.getText());
+            String obs = txtObservation.getText();
+
+            String name = nom.getText();
+            String addresse = adresse.getText();
+            String tel = telephone.getText();
+            String societer = (String) lsSociete.getSelectedItem();
+            String id_soc = MapSos.get(societer);
+
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(dt, format);
+            java.sql.Date ins_Date = java.sql.Date.valueOf(date);
+
+            String idClient=From_client.getOrInsertClientId(name,tel,addresse,id_soc);
+            From_societe.insClientSos(idClient);
+
+            // Recup Medicament whith id
+            StringBuilder medicamentsText = new StringBuilder();
+            for (String med : lsMedicaments.getSelectedValuesList()) {
+                String idMedic = From_Medicament.getIdMedicament(med);
+                int qte = Integer.parseInt(qteMap.get(med).getText());
+
+                // INSERT MED_ORDONNANCE_FILE
+                From_MedOrdFile.insOrdFile(idMedic, idORD, Session.getUserId(),nbJr,qte);
+                medicamentsText.append("- ").append(med).append(" (").append(qte).append(") pour ").append(nbJr).append(" jours\n");
+            
+            }
+
+            String resultat = "===== ORDONNANCE =====\n\n"
+                    + "Date : " + dt + "\n"
+                    + "Nom : " + name + "\n"
+                    + "Téléphone : " + tel + "\n"
+                    + "Adresse : " + addresse + "\n"
+                    + "\nMédicaments :\n" + medicamentsText
+                    + "\nObservation : " + obs
+                    + "\n\nDr " + Session.getUsername()
+                    + "\n\n=========================";
+
+            txtResultat.setText(resultat);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre valide", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}

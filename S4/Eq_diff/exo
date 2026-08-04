@@ -1,0 +1,15 @@
+y'(t)=A(t)+y(t)+B(t)
+y=ke^2x
+y=e^-3/2ln(x^2+1)+c
+(x^2+1)y'+3xy=x^2
+y'cos^2x+y=tanx
+(xy')^2+yy' -2x=0
+y'+2x=ex
+y' sin h(x) -2x cosh(x) -cosh^2+1=0
+y'+y/x = x^2y^4
+
+
+x=ce^At + e^At integrale e^-At V(t)
+f'(t)=3/2f(t)-1/2y(t)+1/2h(t)
+y'(t) = y(t)+1
+h'(t) = 1/2 f(t) - 1/2y(t) + 3/2h(t)

@@ -1,0 +1,40 @@
+QUOI
+	-Trouver une courbe qui dois passer obligatoiremenent au donnees
+	-Estimer un valeur intermediaire en passant par tous les points
+	-Donnes : 
+		Dimension N
+		points xi a yi 
+		X tel que x1 inferieur a X inferieur a xn
+		
+COMMENT :
+	Methode d'iterpolation polynomiale de lagrange
+	
+	Formule :
+	P(x)=somme de i=1 à N yi.Li(x)
+	
+	Li(x)=II x-xj/xi-xj
+	
+
+	Pseudo code 
+		double Lagrage(double x[], double y[], int n , doublex)
+			P=0;
+			pour i=0 à n 
+			Li=1
+				pour j=0 a n
+					si j!=i
+						Li*=X-x[j]/x[i]-x[j]
+				fin j
+			P+=y[i]*Li
+			fin i
+			
+		return P
+		
+			
+			
+COURBE
+set loadpath "/home/kamado/Documents/S3/Dr Robinson/Revision/Interpolation/Lagrange"
+
+plot \
+"pt.dat" using 1:2 with points pointtype 7 pointsize 1.5 title "Points", \
+"pt.dat" using 1:2 with lines linewidth 2 title "Lagrange"
+

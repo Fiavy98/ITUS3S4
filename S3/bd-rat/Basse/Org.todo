@@ -1,0 +1,28 @@
+mydb/
+│
+├── run.sh                  # script pour lancer la base
+│
+data/
+└── databases/
+│   │  └── user/
+│   │      └── DBName/
+│   │          └── tableName/
+│   │              ├── schema.tbl   ← structure
+│   │              ├── data.tbl     ← données
+│   │
+│   │
+│   └── users.db //user:mdp
+│    
+│
+├── src/
+│   └── mydb/
+│       ├── Main.java       # point d’entrée
+│       ├── console/
+│       │   └── Console.java //REgle de commande
+│       │    └── FonctionService.java  # recue le commande et appeler core (comme classe service)
+│       ├── core/
+│       │   └── ClasseManager.java # Connecter au file/dossier data 
+│       └── utils/
+│           └── Prompt.java
+│
+└── bin/                    # fichiers .class compilés

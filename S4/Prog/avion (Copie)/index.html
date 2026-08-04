@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulateur de Vol — Poste de Pilotage Réel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --hud:#00e5ff;
+  --hud2:#00ff88;
+  --warn:#ff9800;
+  --danger:#ff1744;
+  --panel:rgba(10,16,30,0.95);
+  --border:rgba(0,229,255,0.25);
+  --glow:0 0 15px rgba(0,229,255,0.5);
+}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:#000;
+  font-family:'Share Tech Mono',monospace;
+}
+
+/* ═══════════════════════════════════════════
+   STRUCTURE PRINCIPALE (COCKPIT IMMERSIF)
+═══════════════════════════════════════════ */
+#simulator-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ÉCRAN EXTÉRIEUR (Le paysage qui change à travers les vitres) */
+#outside-view {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 70vh; /* Aligné sur les fenêtres */
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* STRUCTURE DU VRAI COCKPIT EN PREMIER PLAN (Découpé et positionné par-dessus) */
+#cockpit-frame-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1920&q=80'); /* Cockpit propre et immersif */
+  background-size: cover;
+  background-position: center bottom;
+  pointer-events: none; /* Laisse cliquer les boutons du HUD */
+  opacity: 0.35; /* Permet de voir à travers les zones sombres */
+  mix-blend-mode: lighten;
+  z-index: 2;
+}
+
+/* Effet vitre de nuit / reflets */
+.glass-reflection {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 70vh;
+  background: radial-gradient(circle at 50% 30%, transparent 50%, rgba(0, 229, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ═══════════════════════════════════════════
+   INTERFACE HUD ET TABLEAU DE BORD (DASHBOARD)
+═══════════════════════════════════════════ */
+#top-bar {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, rgba(5,8,16,0.95) 0%, rgba(5,8,16,0.6) 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+#view-area {
+  flex: 1;
+  position: relative;
+  z-index: 4; /* Au-dessus de la vue extérieure mais sous les menus */
+  pointer-events: none;
+}
+
+#view-label {
+  position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+  font-family: 'Orbitron', monospace; font-size: 12px; letter-spacing: 3px;
+  color: var(--hud); background: rgba(5,8,16,0.85);
+  border: 1px solid var(--border); border-radius: 20px; padding: 6px 24px;
+}
+
+/* Alerte Décrochage */
+#stall-warning {
+  display: none; position: absolute; inset: 0; border: 8px solid var(--danger);
+  animation: pulseBorder 0.4s infinite; z-index: 5;
+}
+#stall-warning.active { display: block; }
+#stall-text {
+  display: none; position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%);
+  font-family: 'Orbitron', monospace; font-size: 36px; font-weight: 900; color: var(--danger);
+  text-shadow: 0 0 20px var(--danger); letter-spacing: 8px;
+}
+#stall-text.active { display: block; animation: flashText 0.4s infinite; }
+
+@keyframes pulseBorder { 0%,100%{opacity:0.8} 50%{opacity:0.2} }
+@keyframes flashText { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Indicateur Piste Atterrissage */
+#runway-vis {
+  display: none; position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
+  flex-direction: column; align-items: center; gap: 5px;
+}
+#runway-vis.visible { display: flex; }
+#runway-img {
+  width: 200px; border: 2px solid var(--hud2); border-radius: 4px; box-shadow: 0 0 15px var(--hud2);
+}
+.runway-caption { font-size: 11px; color: var(--hud2); letter-spacing: 2px; font-weight: bold; }
+
+/* ═══════════════════════════════════════════
+   BOTTOM PLANEL (TABLEAU DE BORD AUDIO/VISUEL)
+═══════════════════════════════════════════ */
+#bottom-hud {
+  position: relative; z-index: 10;
+  display: flex; background: var(--panel);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+}
+
+/* Gauges */
+#gauges-panel {
+  display: flex; flex-direction: column; padding: 12px;
+  border-right: 1px solid var(--border); background: rgba(0,0,0,0.4);
+}
+.gauges-title { font-size: 10px; letter-spacing: 2px; color: rgba(0,229,255,0.6); margin-bottom: 8px; }
+.gauges-row { display: flex; gap: 15px; }
+.gauge-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.gauge-name { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+/* Data Grid */
+#data-panel {
+  flex: 1; display: grid; grid-template-columns: repeat(4, 1fr);
+  background: rgba(0, 229, 255, 0.02);
+}
+.data-cell {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 10px 16px; border-bottom: 1px solid rgba(0,229,255,0.08); border-right: 1px solid rgba(0,229,255,0.08);
+}
+.data-lbl { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; }
+.data-val { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700; color: var(--hud); }
+.data-val.warn { color: var(--warn); }
+.data-val.danger { color: var(--danger); }
+.data-val.ok { color: var(--hud2); }
+.data-unit { font-size: 9px; color: rgba(255,255,255,0.3); margin-left: 3px; }
+
+/* Controls layout */
+#controls-panel {
+  display: flex; flex-direction: column; gap: 8px; padding: 12px; min-width: 320px;
+}
+.ctrl-section-title { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.5); font-weight: bold; }
+.dir-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+
+.dir-btn, .ctrl-btn, .bk-btn {
+  background: rgba(0, 229, 255, 0.08); border: 1px solid var(--border); color: var(--hud);
+  border-radius: 4px; cursor: pointer; font-family: 'Share Tech Mono', monospace;
+  transition: all 0.15s;
+}
+.dir-btn:hover, .ctrl-btn:hover, .bk-btn:hover { background: rgba(0, 229, 255, 0.2); box-shadow: var(--glow); }
+.dir-btn:active { transform: scale(0.96); }
+.dir-btn.empty { background: transparent; border-color: transparent; pointer-events: none; }
+
+.brake-row { display: flex; gap: 8px; margin-top: 4px; }
+.brake-box {
+  flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(0,229,255,0.15);
+  border-radius: 4px; padding: 6px; display: flex; flex-direction: column; gap: 4px;
+}
+.brake-label { font-size: 9px; color: rgba(255,255,255,0.4); text-align: center; }
+.brake-ctrl { display: flex; align-items: center; justify-content: space-between; }
+.bk-btn { width: 28px; height: 28px; font-size: 14px; font-weight: bold; }
+.bk-btn.plus { color: var(--hud2); border-color: rgba(0,255,136,0.3); }
+.bk-btn.minus { color: var(--danger); border-color: rgba(255,23,68,0.3); }
+.bk-val { font-family: 'Orbitron', monospace; font-size: 14px; color: #fff; }
+
+#chrono-display {
+  font-family: 'Orbitron', monospace; font-size: 24px; color: var(--hud);
+  background: #000; border: 1px solid var(--border); padding: 4px 14px; border-radius: 4px;
+}
+#status-badge {
+  font-family: 'Orbitron', monospace; font-size: 11px; padding: 6px 14px;
+  border: 1px solid var(--hud2); color: var(--hud2); border-radius: 12px;
+}
+
+/* OVERLAYS SYSTEM */
+#explosion-overlay, #success-overlay {
+  display: none; position: absolute; inset: 0; z-index: 100;
+  flex-direction: column; align-items: center; justify-content: center; gap: 15px;
+}
+#explosion-overlay.active { display: flex; background: radial-gradient(circle, rgba(255,60,0,0.9) 0%, #000 100%); }
+#success-overlay.active { display: flex; background: radial-gradient(circle, rgba(0,80,40,0.9) 0%, #000 100%); }
+.exp-title, .suc-title { font-family: 'Orbitron', monospace; font-size: 36px; font-weight: 900; }
+.exp-title { color: #fff; text-shadow: 0 0 20px var(--danger); }
+.suc-title { color: var(--hud2); text-shadow: 0 0 20px var(--hud2); }
+</style>
+</head>
+<body>
+
+<div id="simulator-container">
+  
+  <div id="outside-view"></div>
+  <div class="glass-reflection"></div>
+  
+  <div id="cockpit-frame-overlay"></div>
+
+  <div id="explosion-overlay">
+    <div style="font-size:70px">💥</div>
+    <div class="exp-title">CRASH DE L'APPAREIL</div>
+    <div id="exp-reason" style="color:#ffc4c4;">-</div>
+    <button class="dir-btn" style="padding:10px 30px;" onclick="restartSim()">↺ RECOMMENCER LE VOL</button>
+  </div>
+
+  <div id="success-overlay">
+    <div style="font-size:70px">🛬</div>
+    <div class="suc-title">ATTERRISSAGE PARFAIT !</div>
+    <div id="suc-info" style="color:#d4ffd4; text-align:center;">-</div>
+    <button class="dir-btn" style="padding:10px 30px; border-color:var(--hud2); color:var(--hud2)" onclick="restartSim()">↺ VOLER À NOUVEAU</button>
+  </div>
+
+  <div id="top-bar">
+    <div>
+      <button class="ctrl-btn" id="pause-btn" onclick="togglePause()">⏸ PAUSE</button>
+      <button class="ctrl-btn" id="view-btn" style="margin-left:10px; color:var(--hud2); border-color:rgba(0,255,136,0.3)" onclick="cycleView()">👁 INSTRUMENTS : AVANT</button>
+    </div>
+    <div id="chrono-display">00:00:00</div>
+    <div><span id="status-badge">ALTIMÉTRIE OK</span></div>
+  </div>
+
+  <div id="view-area">
+    <div id="view-label">VUE COCKPIT AVANT</div>
+    <div id="stall-warning"></div>
+    <div id="stall-text">⚠ DÉCROCHAGE IMMINENT ⚠</div>
+
+    <div id="runway-vis">
+      <img id="runway-img" src="" alt="Runway">
+      <div class="runway-caption">▼ REPARE DE PISTE VISIBLE EN BAS ▼</div>
+    </div>
+  </div>
+
+  <div id="bottom-hud">
+    
+    <div id="gauges-panel">
+      <div class="gauges-title">RADAR DE VITESSE</div>
+      <div class="gauges-row">
+        <div class="gauge-unit">
+          <canvas class="g" id="g-vx" width="85" height="85"></canvas>
+          <div class="gauge-name">Vx (Horiz)</div>
+        </div>
+        <div class="gauge-unit">
+          <canvas class="g" id="g-vy" width="85" height="85"></canvas>
+          <div class="gauge-name">Vy (Vert)</div>
+        </div>
+        <div class="gauge-unit">
+          <canvas class="g" id="g-vt" width="85" height="85"></canvas>
+          <div class="gauge-name">Vtotal</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="data-panel">
+      <div class="data-cell">
+        <div class="data-lbl">Altitude Réelle</div>
+        <div><span class="data-val" id="d-alt">1100</span><span class="data-unit">m</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Distance / Seuil Piste</div>
+        <div><span class="data-val" id="d-dist">-7500</span><span class="data-unit">m</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Vitesse Avancement (Vx)</div>
+        <div><span class="data-val" id="d-vx">240</span><span class="data-unit">km/h</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Vitesse Descente (Vy)</div>
+        <div><span class="data-val" id="d-vy">-5</span><span class="data-unit">km/h</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Vitesse Vectorielle Totale</div>
+        <div><span class="data-val" id="d-vtot">240</span><span class="data-unit">km/h</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Limite Décrochage</div>
+        <div><span class="data-val danger">100</span><span class="data-unit">km/h</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Régulateur de Frein X</div>
+        <div><span class="data-val" id="d-dx">-25</span><span class="data-unit">km/h/s</span></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-lbl">Régulateur de Frein Y</div>
+        <div><span class="data-val" id="d-dy">-3</span><span class="data-unit">km/h/s</span></div>
+      </div>
+    </div>
+
+    <div id="controls-panel">
+      <div class="ctrl-section-title">MANCHE À BALAI (MANETTE)</div>
+      <div class="dir-pad">
+        <div class="dir-btn empty"></div>
+        <button class="dir-btn" onmousedown="startDir('up')" onmouseup="stopDir()" onmouseleave="stopDir()">🔼 CABRER</button>
+        <div class="dir-btn empty"></div>
+
+        <button class="dir-btn" onmousedown="startDir('back')" onmouseup="stopDir()" onmouseleave="stopDir()">◀ FREINER</button>
+        <div class="dir-btn empty"></div>
+        <button class="dir-btn" onmousedown="startDir('fwd')" onmouseup="stopDir()" onmouseleave="stopDir()">▶ GAZ (+)</button>
+
+        <div class="dir-btn empty"></div>
+        <button class="dir-btn" onmousedown="startDir('down')" onmouseup="stopDir()" onmouseleave="stopDir()">🔽 PIQUER</button>
+        <div class="dir-btn empty"></div>
+      </div>
+
+      <div class="ctrl-section-title">PARAMÉTRAGE DE Δ AIRBRAKES</div>
+      <div class="brake-row">
+        <div class="brake-box">
+          <div class="brake-label">AÉROFREIN X</div>
+          <div class="brake-ctrl">
+            <button class="bk-btn minus" onclick="changeBrake('x', -5)">-</button>
+            <div class="bk-val" id="bv-x">-25</div>
+            <button class="bk-btn plus"  onclick="changeBrake('x', 5)">+</button>
+          </div>
+        </div>
+        <div class="brake-box">
+          <div class="brake-label">AÉROFREIN Y</div>
+          <div class="brake-ctrl">
+            <button class="bk-btn minus" onclick="changeBrake('y', -1)">-</button>
+            <div class="bk-val" id="bv-y">-3</div>
+            <button class="bk-btn plus"  onclick="changeBrake('y', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Les perspectives extérieures vues depuis l'intérieur des vitres
+const VIEWS = [
+  { name: 'AVANT', label: 'VUE PAR PARE-BRISE CENTRAL', img: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=1600&q=80' }, // Ciel avant
+  { name: 'GAUCHE', label: 'VUE PAR HUBLOT LATÉRAL GAUCHE', img: 'https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?w=1600&q=80' }, 
+  { name: 'DROITE', label: 'VUE PAR HUBLOT LATÉRAL DROIT', img: 'https://images.unsplash.com/photo-1494783367193-149034c05e8f?w=1600&q=80' },
+  { name: 'ARRIÈRE', label: 'VUE VERS L\'ARRIÈRE DE LA CABINEhttp://googleusercontent.com/image_generation_content/1

@@ -1,0 +1,78 @@
+<h2>Liste des Lots</h2>
+
+<div *ngIf="error" style="color:red">{{error}}</div>
+
+<form class="form-card" (ngSubmit)="save()">
+  <div class="form-row">
+    <div class="form-group">
+      <label>Nom:</label>
+      <input name="nom" [(ngModel)]="formModel.nom" required>
+    </div>
+    <div class="form-group">
+      <label>Date entrée:</label>
+      <input type="date" name="date_entree" [(ngModel)]="formModel.date_entree" required>
+    </div>
+    <div class="form-group">
+      <label>Nb poulets:</label>
+      <input type="number" name="nb_akoho_initial" [(ngModel)]="formModel.nb_akoho_initial" required>
+    </div>
+    <div class="form-group">
+      <label>Nb lahy:</label>
+      <input type="number" name="nb_lahy" [(ngModel)]="formModel.nb_lahy" required>
+    </div>
+    <div class="form-group">
+      <label>Nb vavy:</label>
+      <input type="number" name="nb_vavy" [(ngModel)]="formModel.nb_vavy" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Race:</label>
+      <select name="race_id" [(ngModel)]="formModel.race_id" required>
+        <option value="" disabled selected>-- choisir une race --</option>
+        <option *ngFor="let r of races" [value]="r.id">{{r.nom}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Age semaine:</label>
+      <input type="number" name="age_semaine" [(ngModel)]="formModel.age_semaine" required>
+    </div>
+  </div>
+  <div class="form-button">
+    <button type="submit" [disabled]="saving">Créer</button>
+  </div>
+</form>
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="!loading && !lots.length">Aucune donnée.</div>
+
+<table border="1" *ngIf="!loading && lots.length">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Date entrée</th>
+      <th>Nb Poulets</th>
+      <th>Nb Lahy</th>
+      <th>Nb Vavy</th>
+      <th>Race</th>
+      <th>Age semaine</th>
+    </tr>
+  </thead>
+
+<tbody>
+<tr *ngFor="let lot of lots">
+<td>{{lot.id}}</td>
+<td>{{lot.nom}}</td>
+<td>{{lot.date_entree | date:'yyyy-MM-dd'}}</td>
+<td>{{lot.nb_akoho_initial}}</td>
+<td>{{lot.nb_lahy}}</td>
+<td>{{lot.nb_vavy}}</td>
+<td>{{lot.race_nom || lot.race_id}}</td>
+<td>{{lot.age_semaine}}</td>
+</tr>
+</tbody>
+
+</table>
+<a [routerLink]="['/lots/visiter']">Visiter Lot...</a><br><br>
+<a [routerLink]="['/lots/situation']">Situation Lot...</a>

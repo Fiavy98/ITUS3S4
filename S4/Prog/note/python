@@ -1,0 +1,10 @@
+cree un environement
+python3 -m venv venv
+source venv/bin/activate
+
+
+compiler un fichier python 
+	python3 file.py
+
+installer un bibliotheque 
+pip install bibliothequeName

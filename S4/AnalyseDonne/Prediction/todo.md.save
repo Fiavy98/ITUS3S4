@@ -1,0 +1,21 @@
+**QGIS**= prepare les donnees 
+**Django**= calclul et repond
+**Leaflet**=affiche et permet de cliquer
+
+## Role de QGIS
+- gerer le cordonnees (latitude, longitude)
+- afficher et analyser la carte
+- stocker ke donnees 
+    - variable expliquer 
+    	- prix en m²
+    - variable explicatif 
+	- acces
+	- distance par rapport au route nationnale 
+	- batisable
+	- distance par rapport au poto JIRAMA
+	- Papier : 
+		- Titre borne
+		- cadage
+		- fifanolorana (une remise ou un transfert volontaire du terrain)
+		- commune
+

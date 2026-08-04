@@ -1,0 +1,40 @@
+MonProjetSwing/
+│
+├── src/                     # Code source Java
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/monprojet/
+│   │   │   │   ├── app/           # Classe principale et initialisation
+│   │   │   │   │   └── Main.java
+│   │   │   │   ├── ui/            # Interface graphique Swing
+│   │   │   │   │   ├── MainFrame.java
+│   │   │   │   │   ├── LoginPanel.java
+│   │   │   │   │   └── ... autres panels
+│   │   │   │   ├── model/         # Objets métiers (POJO)
+│   │   │   │   │   ├── User.java
+│   │   │   │   │   └── Product.java
+│   │   │   │   ├── dao/           # Accès aux données (Data Access Object)
+│   │   │   │   │   ├── OracleDAO.java
+│   │   │   │   │   ├── PostgresDAO.java
+│   │   │   │   │   └── CommonDAO.java (si commun)
+│   │   │   │   ├── util/          # Utilitaires et helpers
+│   │   │   │   │   ├── DBConnection.java
+│   │   │   │   │   └── ConfigReader.java
+│   │   │   │   └── service/       # Logique métier / coordination
+│   │   │   │       └── UserService.java
+│   │   │   └── ...
+│   │   └── resources/     # Fichiers de configuration, icônes, etc.
+│   │       ├── config.properties   # Paramètres des deux bases
+│   │       └── images/             # Icônes et images pour l'UI
+│   └── test/               # Tests unitaires
+│       └── java/
+│           └── com/monprojet/
+│               └── dao/
+│                   └── OracleDAOTest.java
+│
+├── lib/                    # Bibliothèques externes (.jar)
+│   ├── ojdbc8.jar          # Oracle JDBC
+│   └── postgresql.jar      # PostgreSQL JDBC
+│
+├── pom.xml                 # Si tu utilises Maven
+└── README.md

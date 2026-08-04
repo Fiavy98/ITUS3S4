@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carte Prix Terrain</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+<h2>Carte interactive</h2>
+
+<div id="map" style="height: 500px;"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+// Initialiser carte (Antananarivo)
+var map = L.map('map').setView([-18.8792, 47.5079], 13);
+
+// Ajouter fond de carte
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'OpenStreetMap'
+}).addTo(map);
+
+// Test clic
+map.on('click', function(e) {
+    let lat = e.latlng.lat;
+    let lon = e.latlng.lng;
+
+    fetch(`/predict/?lat=${lat}&lon=${lon}`)
+        .then(response => response.json())
+        .then(data => {
+            L.popup()
+             .setLatLng(e.latlng)
+             .setContent("Prix estimé : " + data.prix + " Ar/m²")
+             .openOn(map);
+        });
+});
+
+</script>
+
+</body>
+</html>

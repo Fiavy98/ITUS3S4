@@ -1,0 +1,43 @@
+////ssh harenkanto
+itu@itu-FMVNE7H1E:~$ scp itu@Cori:/home/itu/Documents/Math/fichier.txt ~/Documents/
+The authenticity of host 'cori (172.50.103.77)' can't be established.
+ED25519 key fingerprint is SHA256:BiTc9SJmMbUD29yzlUL2XlY4dDiYs8YzOe/9CPTrPrw.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:1: [hashed name]
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'cori' (ED25519) to the list of known hosts.
+itu@cori's password: 
+fichier.txt                                   100%   76     1.4KB/s   00:00    
+itu@itu-FMVNE7H1E:~$ scp -r itu@Cori:/home/itu/Documents/Math ~/Documents/
+itu@cori's password: 
+trapeze.c                                     100% 1184     9.8KB/s   00:00    
+test                                          100%   16KB  37.5KB/s   00:00    
+tasks.json                                    100%  713     1.0KB/s   00:00    
+tra.c                                         100%  676     4.9KB/s   00:00    
+Resolution.c                                  100%  571     1.9KB/s   00:00    
+fichier.txt                                   100%   76     0.6KB/s   00:00    
+test.c                                        100% 1212     4.3KB/s   00:00    
+itu@itu-FMVNE7H1E:~$ scp ~/Documents/file1 itu@Cori:/home/itu/Documents/Samba
+itu@cori's password: 
+file1                                         100%   43     0.1KB/s   00:00    
+itu@itu-FMVNE7H1E:~$ scp -r ~/Documents/Algebre/ itu@Cori:/home/itu/Documents/Samba
+itu@cori's password: 
+Relation.class                                100% 4668    18.0KB/s   00:00    
+Row.class                                     100%  897     5.0KB/s   00:00    
+Attribute.class                               100% 1017     3.3KB/s   00:00    
+Main.class                                    100% 1642     1.5KB/s   00:01    
+Main.class                                    100%  728     8.9KB/s   00:00    
+Main.java                                     100% 1793    17.6KB/s   00:00    
+Attribute.java                                100%  765    10.2KB/s   00:00    
+Row.java                                      100%  502     0.5KB/s   00:00    
+Relation.java                                 100% 4466    28.4KB/s   00:00    
+Appartenance.java                             100%  606     6.7KB/s   00:00    
+Appartenance.class                            100%  859     4.3KB/s   00:00    
+Ensemble.java                                 100%    0     0.0KB/s   00:00    
+Attribut.java                                 100%  392     2.6KB/s   00:00    
+Domaine.java                                  100%  191     0.3KB/s   00:00    
+Uplet.java                                    100%  334     2.5KB/s   00:00    
+Relation.java                                 100% 1844     5.9KB/s   00:00    
+itu@itu-FMVNE7H1E:~$ exit
+logout
+Connection to harenkanto closed.

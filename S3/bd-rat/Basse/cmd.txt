@@ -1,0 +1,19 @@
+FIDIO etuduant.nom,inscription.note AVY AMIN'NY inscription MIARAKA AMIN'NY etuduant RAHA inscription.idE=etuduant.idE 
+
+fidio * ao amin'ny etuduant raha idE=E1;
+
+
+hiditra testa/1234;
+
+hamorona databases domaines;
+
+hampiasa domaine;
+
+hampiasa fitsarana1;
+
+fidio * ao amin'ny etuduant;
+
+fidio * ao amin'ny etuduant raha idE=E1;
+fidio * ao amin'ny etuduant raha idE=E1 sy niveau=L3;
+
+FIDIO etuduant.nom,inscription.note AVY AMIN'NY inscription MIARAKA AMIN'NY etuduant RAHA inscription.idE=etuduant.idE;

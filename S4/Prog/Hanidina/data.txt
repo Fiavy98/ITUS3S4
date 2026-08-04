@@ -1,0 +1,8 @@
+- avion : avion1
+- vitesseX : 200.0
+- vitesseY : 12.0
+- Altitude: 7000
+- distPiste : -5000
+- VChrochage : 160.0
+- limiteX : -40
+- limiteY : 6

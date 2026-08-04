@@ -1,0 +1,89 @@
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Informations sur les Pays</title>
+ <style>
+ body {
+ font-family: Arial, sans-serif;
+ margin: 20px;
+ background-color: #f0f0f0;
+ }
+ button {
+ font-size: 18px;
+ padding: 10px 20px;
+ cursor: pointer;
+ background-color: #4CAF50;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ margin-bottom: 20px;
+ }
+ table {
+ border-collapse: collapse;
+ width: 100%;
+ }
+ th, td {
+ border: 1px solid #ddd;
+ padding: 8px;
+ text-align: left;
+ }
+ th {
+ background-color: #4CAF50;
+ color: white;
+ }
+ tr:nth-child(even) {
+ background-color: #f2f2f2;
+ }
+ </style>
+</head>
+<body>
+ <button onclick="afficherPays()">Afficher pays</button>
+ <div id="tableau"></div>
+
+ <script>
+ const pays = [
+ { nom: "France", capitale: "Paris", superficie: 551695 },
+ { nom: "Allemagne", capitale: "Berlin", superficie: 357022 },
+ { nom: "Italie", capitale: "Rome", superficie: 301340 },
+ { nom: "Espagne", capitale: "Madrid", superficie: 505990 },
+ { nom: "Royaume-Uni", capitale: "Londres", superficie: 243610 },
+ { nom: "Pologne", capitale: "Varsovie", superficie: 312685 },
+ { nom: "Suède", capitale: "Stockholm", superficie: 450295 },
+ { nom: "Norvège", capitale: "Oslo", superficie: 385207 },
+ { nom: "Finlande", capitale: "Helsinki", superficie: 338424 },
+ { nom: "Danemark", capitale: "Copenhague", superficie: 43094 },
+ { nom: "Pays-Bas", capitale: "Amsterdam", superficie: 41543 },
+ { nom: "Belgique", capitale: "Bruxelles", superficie: 30528 },
+ { nom: "Autriche", capitale: "Vienne", superficie: 83871 },
+ { nom: "Suisse", capitale: "Berne", superficie: 41277 },
+ { nom: "Portugal", capitale: "Lisbonne", superficie: 92090 },
+ { nom: "Grèce", capitale: "Athènes", superficie: 131957 },
+ { nom: "République tchèque", capitale: "Prague", superficie: 78867 },
+ { nom: "Hongrie", capitale: "Budapest", superficie: 93028 },
+ { nom: "Irlande", capitale: "Dublin", superficie: 70273 },
+ { nom: "Roumanie", capitale: "Bucarest", superficie: 238397 }
+
+ function afficherPays() {
+ 
+ console.log(pays);
+
+ 
+ let tableauHTML = '<table><tr><th>Nom</th><th>Capitale</th><th>Superficie (km²)</th></tr>';
+
+ pays.forEach(pays => {
+ tableauHTML += `<tr><td>${pays.nom}</td><td>${pays.capitale}</td><td>${pays.superficie}</td></tr>`;
+ });
+
+ tableauHTML += '</table>';
+
+ 
+ document.getElementById('tableau').innerHTML = tableauHTML;
+ }
+ </script>
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+/* Basic table/form styling for LotComponent */
+form {
+  margin-bottom: 1rem;
+}
+form label {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0.25rem 0.5rem;
+}

@@ -1,0 +1,59 @@
+<p>Bienvenue sur la plateforme de gestion des Lot d’akoho.</p>
+
+
+<h2>Situation du Lot</h2>
+<div class="form-row">
+  <div class="form-group">
+    <form (ngSubmit)="loadSituation()">
+      <label for="date">Date :</label>
+      <input type="date" id="date" [(ngModel)]="dateChoisie" name="date" required (change)="loadSituation()">
+      <br>
+      <div class="form-button">
+        <button type="submit">Afficher</button></div>
+    </form>
+  </div>
+</div>
+
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="error">{{ error }}</div>
+<div *ngIf="!loading && !error && !situation.length">Aucune donnée pour cette date.</div>
+
+<table border="1" *ngIf="!loading && !error && situation.length">
+  <thead>
+    <tr>
+      <th>Nom Lot</th>
+      <th>NbAkoho</th>
+      <th>NbLahy</th>
+      <th>NbVavy</th>
+      <th>Capacité max œufs</th>
+      <th>Achat</th>
+      <th>SakafoLany</th>
+      <th>Maty</th>
+      <th>PoidsMoyen</th>
+      <th>PrixVente</th>
+      <th>NbAtody</th>
+      <th>PrixAtody</th>
+      <th>Benefice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of situation">
+      <td>{{ s.NomLot }}</td>
+      <td>{{ s.NbAkoho }}</td>
+      <td>{{ s.NbLahy }}</td>
+      <td>{{ s.NbVavy }}</td>
+      <td>{{ s.CapaciteMaxAtody }}</td>
+      <td>{{ s.Achat }}</td>
+      <td>{{ s.SakafoLany }}</td>
+      <td>{{ s.Maty }}</td>
+      <td>{{ s.PoidsMoyen | number:'1.2-2' }}</td>
+      <td>{{ s.PrixVente | number:'1.2-2' }}</td>
+      <td>{{ s.NbAtody }}</td>
+      <td>{{ s.PrixAtody | number:'1.2-2' }}</td>
+      <td>{{ s.Benefice | number:'1.2-2' }}</td>
+    </tr>
+  </tbody>
+</table>
+<a [routerLink]="['/lots']">Retour</a><br><br>
+<a [routerLink]="['/lots/visiter']">Visiter Lot...</a>

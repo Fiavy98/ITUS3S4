@@ -1,0 +1,42 @@
+Produits
+- id
+- nom
+- methode_valuation ENUM (FIFO, LIFO, CUMP)
+- prix_vente_defaut (optionnel)
+- unite (ex: pièce, kg, litre)
+
+Mouvements
+- id
+- produit_id
+- type ENUM (ENTREE, SORTIE)
+- quantite
+- prix_unitaire
+- date
+
+EtatStockView
+- produit_id
+- date (filtre)
+- stock_quantite
+- valeur_stock
+- prix_moyen (si CUMP)
+
+detailEtat
+- produit_id
+- nom_produit
+- unite
+- methode_valuation
+- 
+- stock_quantite
+- valeur_stock
+- 
+- prix_moyen
+- prix_dernier_achat
+- prix_vente_defaut
+- 
+- dernier_mouvement_date
+- dernier_mouvement_type
+- 
+- quantite_entree_total
+- quantite_sortie_total
+- 
+- detail_stock

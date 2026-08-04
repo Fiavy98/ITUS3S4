@@ -1,0 +1,29 @@
+QUOI:
+	Chercher une courbe qui passe obligatoirement au donnees
+	Estimer une valeur intermediaire en passant par tous les points connue 
+	
+	Donees:
+		dimmennsion N
+		points x1 a xn , y1 a yn
+		X tel que x1 < X < xn
+		
+COMMENT :
+	Meth. Interpolation de Lagrange 
+	
+	P(x)=somme de i=1 allant n.yi.Li(x)
+	
+	Li(x)=II n j=1,j diff i alllant n x-xi/xi-xj
+	
+	Pseudo-code
+	P=0
+	Pour i=0 a n-1 
+		Li=1
+			Pour j=0 a n-1 
+				si j !=i
+					Li*=X-x[j] / x[i] - x[j]
+			fin j
+			P+=y[i]*Li;
+	Fin i
+	
+	return p
+	

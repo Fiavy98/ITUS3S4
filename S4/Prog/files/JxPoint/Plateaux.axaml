@@ -1,0 +1,163 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="JxPoint.Views.Plateaux"
+             Background="Transparent">
+
+  <Grid RowDefinitions="Auto,*,Auto">
+
+    <!-- ═══════════════════════════════════════
+         PANNEAU J1 (haut gauche) + J2 (haut droite)
+    ═══════════════════════════════════════ -->
+    <Grid Grid.Row="0"
+          ColumnDefinitions="*,*"
+          Margin="0,0,0,12">
+
+      <!-- Panneau J1 -->
+      <Border Grid.Column="0"
+              Name="PanneauJ1"
+              Background="#1a1a22"
+              BorderBrush="#3B82F6"
+              BorderThickness="1"
+              CornerRadius="8"
+              Padding="12,10"
+              Margin="0,0,6,0">
+        <StackPanel Spacing="6">
+          <TextBlock Text="JOUEUR 1 — BAZOOKA (droite)"
+                     Foreground="#3B82F6"
+                     FontSize="10"
+                     FontWeight="Bold"/>
+          <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <TextBlock Text="Position :" Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+            <Slider Name="J1PositionSlider"
+                    Minimum="0" Maximum="8" Value="4"
+                    Width="120"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"/>
+            <TextBlock Name="J1PosLabel" Text="4" Foreground="White" FontSize="11" VerticalAlignment="Center" MinWidth="20"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <TextBlock Text="Vitesse :" Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+            <Slider Name="J1VitesseSlider"
+                    Minimum="1" Maximum="9" Value="5"
+                    Width="100"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"/>
+            <TextBlock Name="J1VitesseLabel" Text="5" Foreground="White" FontSize="11" VerticalAlignment="Center" MinWidth="20"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Name="J1TirerBtn"
+                    Content="🔥 TIRER"
+                    Background="#1e3a5f"
+                    BorderBrush="#3B82F6"
+                    BorderThickness="1"
+                    Foreground="#3B82F6"
+                    FontSize="11"
+                    Padding="10,5"
+                    CornerRadius="4"/>
+            <Button Name="J1TrajectoireBtn"
+                    Content="👁 Trajectoire"
+                    Background="Transparent"
+                    BorderBrush="#444"
+                    BorderThickness="1"
+                    Foreground="#888"
+                    FontSize="10"
+                    Padding="8,5"
+                    CornerRadius="4"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Panneau J2 -->
+      <Border Grid.Column="1"
+              Name="PanneauJ2"
+              Background="#1a1a22"
+              BorderBrush="#EF4444"
+              BorderThickness="1"
+              CornerRadius="8"
+              Padding="12,10"
+              Margin="6,0,0,0">
+        <StackPanel Spacing="6">
+          <TextBlock Text="JOUEUR 2 — BAZOOKA (gauche)"
+                     Foreground="#EF4444"
+                     FontSize="10"
+                     FontWeight="Bold"/>
+          <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <TextBlock Text="Position :" Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+            <Slider Name="J2PositionSlider"
+                    Minimum="0" Maximum="8" Value="4"
+                    Width="120"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"/>
+            <TextBlock Name="J2PosLabel" Text="4" Foreground="White" FontSize="11" VerticalAlignment="Center" MinWidth="20"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <TextBlock Text="Vitesse :" Foreground="#888" FontSize="11" VerticalAlignment="Center"/>
+            <Slider Name="J2VitesseSlider"
+                    Minimum="1" Maximum="9" Value="5"
+                    Width="100"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"/>
+            <TextBlock Name="J2VitesseLabel" Text="5" Foreground="White" FontSize="11" VerticalAlignment="Center" MinWidth="20"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Name="J2TirerBtn"
+                    Content="🔥 TIRER"
+                    Background="#3f1e1e"
+                    BorderBrush="#EF4444"
+                    BorderThickness="1"
+                    Foreground="#EF4444"
+                    FontSize="11"
+                    Padding="10,5"
+                    CornerRadius="4"/>
+            <Button Name="J2TrajectoireBtn"
+                    Content="👁 Trajectoire"
+                    Background="Transparent"
+                    BorderBrush="#444"
+                    BorderThickness="1"
+                    Foreground="#888"
+                    FontSize="10"
+                    Padding="8,5"
+                    CornerRadius="4"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- ═══════════════════════════════════════
+         PLATEAU (Canvas)
+    ═══════════════════════════════════════ -->
+    <Border Grid.Row="1"
+            Background="#1a1a22"
+            BorderBrush="#2a2a38"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="8">
+      <Panel Name="Grille"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"/>
+    </Border>
+
+    <!-- ═══════════════════════════════════════
+         JOURNAL D'ACTIONS (bas)
+    ═══════════════════════════════════════ -->
+    <Border Grid.Row="2"
+            Background="#12121a"
+            BorderBrush="#2a2a38"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="10,6"
+            Margin="0,8,0,0"
+            MaxHeight="70">
+      <ScrollViewer Name="LogScroll"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+        <TextBlock Name="LogText"
+                   Foreground="#666"
+                   FontSize="11"
+                   FontFamily="Monospace"
+                   TextWrapping="Wrap"/>
+      </ScrollViewer>
+    </Border>
+
+  </Grid>
+</UserControl>

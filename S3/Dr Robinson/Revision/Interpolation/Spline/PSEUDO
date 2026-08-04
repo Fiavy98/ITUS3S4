@@ -1,0 +1,43 @@
+QUOI
+	Trouver un courbe qui passe obligatoirement au donne 
+	Estimer un valeur intermediaire S(x) avec meilleur precission
+	Assurer la continuite de la fonction ainsi que de ce derives premieres et secondes
+	
+	Donnees
+		Dimmension N
+		les points (xi,yi)
+		un point x tel que : x1​≤X≤xN
+COMMENT : 
+	Methode d'interpolation polynomiale par morceaux
+			
+	Si​(x)=ai​+bi​(x−xi​)+ci​(x−xi​)²+di​(x−xi​)³
+	
+	Spline(x[], y[], N, X)
+
+Calculer h[i] = x[i+1] - x[i]
+
+Construire le second membre R[i] :
+    pour i = 2 à N-1
+        R[i] = 6 * ((y[i+1]-y[i])/h[i]
+                 - (y[i]-y[i-1])/h[i-1])
+
+Résoudre le système tridiagonal
+    pour obtenir S2[i] = S''(x_i)
+
+Trouver l’intervalle i tel que :
+    x[i] ≤ X ≤ x[i+1]
+
+Calculer les coefficients :
+    a = y[i]
+    b = (y[i+1]-y[i])/h[i]
+        - h[i]*(2*S2[i]+S2[i+1])/6
+    c = S2[i]/2
+    d = (S2[i+1]-S2[i])/(6*h[i])
+
+Calculer la valeur interpolée :
+    S(X) = a
+         + b*(X-x[i])
+         + c*(X-x[i])²
+         + d*(X-x[i])³
+
+Retourner S(X)

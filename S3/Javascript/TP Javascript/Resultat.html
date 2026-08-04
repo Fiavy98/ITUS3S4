@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Resultat</title>
+ <style>
+ body {
+ font-family: Arial, sans-serif;
+ margin: 20px;
+ background-color: #f0f0f0;
+ }
+ table {
+ border-collapse: collapse;
+ width: 100%;
+ margin-bottom: 20px;
+ }
+ th, td {
+ border: 1px solid #ddd;
+ padding: 8px;
+ text-align: left;
+ }
+ th {
+ background-color: #816e4a;
+ color: white;
+ }
+ tr:nth-child(even) {
+ background-color: #f2f2f2;
+ }
+ button {
+ font-size: 18px;
+ padding: 10px 20px;
+ cursor: pointer;
+ background-color: #afa05f;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ margin-right: 10px;
+ margin-bottom: 20px;
+ }
+ </style>
+</head>
+<body>
+ <h1>Resultats des Affichages de Pays</h1>
+ <button onclick="reinitialiserCompteurs()">Reinitialiser les compteurs</button>
+ <a href="index.html"><button>Retour à la page principale</button></a>
+ <div id="tableauResultats"></div>
+
+ <script>
+ const pays = [
+ { nom: "France", capitale: "Paris", superficie: 551695, population: 67391582, drapeau: "https://flagcdn.com/w320/fr.png", codePays: "FR" },
+ { nom: "Allemagne", capitale: "Berlin", superficie: 357022, population: 83240525, drapeau: "https://flagcdn.com/w320/de.png", codePays: "DE" },
+ { nom: "Italie", capitale: "Rome", superficie: 301340, population: 59554023, drapeau: "https://flagcdn.com/w320/it.png", codePays: "IT" },
+ { nom: "Espagne", capitale: "Madrid", superficie: 505990, population: 47351567, drapeau: "https://flagcdn.com/w320/es.png", codePays: "ES" },
+ { nom: "Royaume-Uni", capitale: "Londres", superficie: 243610, population: 67215293, drapeau: "https://flagcdn.com/w320/gb.png", codePays: "GB" },
+ { nom: "Pologne", capitale: "Varsovie", superficie: 312685, population: 37846611, drapeau: "https://flagcdn.com/w320/pl.png", codePays: "PL" },
+ { nom: "Suède", capitale: "Stockholm", superficie: 450295, population: 10353442, drapeau: "https://flagcdn.com/w320/se.png", codePays: "SE" },
+ { nom: "Norvège", capitale: "Oslo", superficie: 385207, population: 5378857, drapeau: "https://flagcdn.com/w320/no.png", codePays: "NO" },
+ { nom: "Finlande", capitale: "Helsinki", superficie: 338424, population: 5530719, drapeau: "https://flagcdn.com/w320/fi.png", codePays: "FI" },
+ { nom: "Danemark", capitale: "Copenhague", superficie: 43094, population: 5831404, drapeau: "https://flagcdn.com/w320/dk.png", codePays: "DK" }
+ ];
+
+ function afficherResultats() {
+ const compteurs = JSON.parse(localStorage.getItem('compteursAffichage')) || {};
+ let tableauHTML = `<table>
+ <tr>
+ <th>Nom</th>
+ <th>Capitale</th>
+ <th>Superficie (km²)</th>
+ <th>Population</th>
+ <th>Drapeau</th>
+ <th>Code Pays</th>
+ <th>Nombre d'affichages</th>
+ </tr>`;
+ pays.forEach(pays => {
+ tableauHTML += `<tr>
+ <td>${pays.nom}</td>
+ <td>${pays.capitale}</td>
+ <td>${pays.superficie}</td>
+ <td>${pays.population}</td>
+ <td><img src="${pays.drapeau}" alt="Drapeau ${pays.nom}" style="width:50px;height:auto;"></td>
+ <td>${pays.codePays}</td>
+ <td>${compteurs[pays.nom] || 0}</td>
+ </tr>`;
+ });
+ tableauHTML += '</table>';
+ document.getElementById('tableauResultats').innerHTML = tableauHTML;
+ }
+
+ function reinitialiserCompteurs() {
+ localStorage.removeItem('compteursAffichage');
+ afficherResultats();
+ }
+ afficherResultats();
+ </script>
+</body>
+</html>

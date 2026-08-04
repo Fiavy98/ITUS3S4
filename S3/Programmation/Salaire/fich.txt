@@ -1,0 +1,321 @@
+package dao;
+
+import model.Employee;
+import model.DatabaseConnection;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+public class EmployeeDAO {
+
+    private <T> List<T> executeQuery(String sql, Function<ResultSet, T> mapper, Object... params) throws SQLException {
+        List<T> resultList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Ajout automatique des paramètres
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    resultList.add(mapper.apply(rs));
+                }
+            }
+        }
+        return resultList;
+    }
+
+    // 🔹 Méthode utilitaire pour exécuter une requête de mise à jour (INSERT,
+    // UPDATE, DELETE)
+    private boolean executeUpdate(String sql, Object... params) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
+
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    // 🔹 Mapper ResultSet → Employee (pour éviter la répétition)
+    private Employee mapEmployee(ResultSet rs) {
+        try {
+            return new Employee(
+                    rs.getInt("empno"),
+                    rs.getString("ename"),
+                    rs.getString("job"),
+                    rs.getDouble("sal"),
+                    rs.getDate("hiredate"),
+                    rs.getInt("deptno"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ✅ Récupérer tous les employés
+    public List<Employee> getAllEmployees() throws SQLException {
+        String sql = "SELECT empno, ename, job, sal, hiredate, deptno FROM emp ORDER BY empno";
+        return executeQuery(sql, this::mapEmployee);
+    }
+
+    // ✅ Ajouter un employé
+    public boolean addEmployee(Employee e) throws SQLException {
+        String sql = "INSERT INTO emp (empno, ename, job, sal, hiredate, deptno) VALUES (?, ?, ?, ?, ?, ?)";
+        boolean added = executeUpdate(sql,
+                e.getEmpno(), e.getEname(), e.getJob(),
+                e.getSal(), new java.sql.Date(e.getHiredate().getTime()),
+                e.getDeptno());
+
+        if (added)
+            addInitialSalaryHistory(e);
+        return added;
+    }
+
+    // ✅ Historique des salaires
+    private void addInitialSalaryHistory(Employee e) throws SQLException {
+        String sql = "INSERT INTO salary_history (empno, salary, start_date, end_date) VALUES (?, ?, ?, NULL)";
+        executeUpdate(sql,
+                e.getEmpno(),
+                e.getSal(),
+                new java.sql.Date(e.getHiredate().getTime()));
+    }
+
+    // ✅ Mise à jour salaire
+    public boolean updateEmployeeSalary(int empno, double newSalary) throws SQLException {
+        String sql = "UPDATE emp SET sal = ? WHERE empno = ?";
+        return executeUpdate(sql, newSalary, empno);
+    }
+
+    // ✅ Suppression d’un employé et son historique
+    public boolean deleteEmployee(int empno) throws SQLException {
+        String delHistory = "DELETE FROM salary_history WHERE empno = ?";
+        String delEmp = "DELETE FROM emp WHERE empno = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmt1 = conn.prepareStatement(delHistory);
+                    PreparedStatement stmt2 = conn.prepareStatement(delEmp)) {
+
+                stmt1.setInt(1, empno);
+                stmt1.executeUpdate();
+
+                stmt2.setInt(1, empno);
+                int affected = stmt2.executeUpdate();
+
+                conn.commit();
+                return affected > 0;
+            } catch (SQLException ex) {
+                conn.rollback();
+                throw ex;
+            }
+        }
+    }
+
+    // ✅ Liste des jobs distincts
+    public List<String> getDistinctJobs() throws SQLException {
+        String sql = "SELECT DISTINCT job FROM emp ORDER BY job";
+        return executeQuery(sql, rs -> {
+            try {
+                return rs.getString("job");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    // ✅ Liste des départements distincts
+    public List<Integer> getDistinctDeptnos() throws SQLException {
+        String sql = "SELECT DISTINCT deptno FROM emp ORDER BY deptno";
+        return executeQuery(sql, rs -> {
+            try {
+                return rs.getInt("deptno");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    // ✅ Trouver un employé par ID
+    public Employee getEmployeeById(int empno) throws SQLException {
+        String sql = "SELECT empno, ename, job, sal, hiredate, deptno FROM emp WHERE empno = ?";
+        List<Employee> result = executeQuery(sql, this::mapEmployee, empno);
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    // ✅ Vérifier si un employé existe
+    public boolean isEmployeeExists(int empno) throws SQLException {
+        String sql = "SELECT 1 FROM emp WHERE empno = ?";
+        return !executeQuery(sql, rs -> 1, empno).isEmpty();
+    }
+}
+
+
+
+package dao;
+
+import model.SalaryHistory;
+import model.DatabaseConnection;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Calendar;
+
+public class SalaryHistoryDAO {
+    
+    public List<SalaryHistory> getSalaryHistoryByDate(java.util.Date filterDate) throws SQLException {
+        List<SalaryHistory> history = new ArrayList<>();
+        
+        String sql = "SELECT sh.empno, sh.salary, sh.start_date, sh.end_date, e.ename " +
+                     "FROM salary_history sh " +
+                     "JOIN emp e ON sh.empno = e.empno " +
+                     "WHERE (? BETWEEN sh.start_date AND sh.end_date) " +
+                     "OR (sh.end_date IS NULL AND ? >= sh.start_date) " +
+                     "ORDER BY sh.empno, sh.start_date";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            java.sql.Date sqlDate = new java.sql.Date(filterDate.getTime());
+            stmt.setDate(1, sqlDate);
+            stmt.setDate(2, sqlDate);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                SalaryHistory sh = new SalaryHistory(
+                    rs.getInt("empno"),
+                    rs.getDouble("salary"),
+                    rs.getDate("start_date"),
+                    rs.getDate("end_date"),
+                    rs.getString("ename")
+                );
+                history.add(sh);
+            }
+        }
+        return history;
+    }
+    
+    public List<SalaryHistory> getCompleteSalaryHistory(int empno) throws SQLException {
+        List<SalaryHistory> history = new ArrayList<>();
+        
+        String sql = "SELECT sh.empno, sh.salary, sh.start_date, sh.end_date, e.ename " +
+                     "FROM salary_history sh " +
+                     "JOIN emp e ON sh.empno = e.empno " +
+                     "WHERE sh.empno = ? " +
+                     "ORDER BY sh.start_date";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, empno);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                SalaryHistory sh = new SalaryHistory(
+                    rs.getInt("empno"),
+                    rs.getDouble("salary"),
+                    rs.getDate("start_date"),
+                    rs.getDate("end_date"),
+                    rs.getString("ename")
+                );
+                history.add(sh);
+            }
+        }
+        return history;
+    }
+    
+    public boolean addSalaryHistory(SalaryHistory history) throws SQLException {
+       
+        return addSalaryHistory(history, true);
+    }
+
+    public boolean addSalaryHistory(SalaryHistory history, boolean autoClosePrevious) throws SQLException {
+        String updateSql = "UPDATE salary_history SET end_date = ? WHERE empno = ? AND end_date IS NULL";
+        String insertSql = "INSERT INTO salary_history (empno, salary, start_date, end_date) VALUES (?, ?, ?, ?)";
+
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            conn.setAutoCommit(false);
+
+            if (autoClosePrevious) {
+                // compute previous end date = new start date - 1 day
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(history.getStartDate());
+                cal.add(Calendar.DATE, -1);
+                java.sql.Date prevEndDate = new java.sql.Date(cal.getTimeInMillis());
+
+                // update current open-ended salary (if any) to end the day before the new start
+                try (PreparedStatement upStmt = conn.prepareStatement(updateSql)) {
+                    upStmt.setDate(1, prevEndDate);
+                    upStmt.setInt(2, history.getEmpno());
+                    upStmt.executeUpdate();
+                }
+            }
+
+            // insert the new salary record
+            try (PreparedStatement insStmt = conn.prepareStatement(insertSql)) {
+                insStmt.setInt(1, history.getEmpno());
+                insStmt.setDouble(2, history.getSalary());
+                insStmt.setDate(3, new java.sql.Date(history.getStartDate().getTime()));
+
+                if (history.getEndDate() != null) {
+                    insStmt.setDate(4, new java.sql.Date(history.getEndDate().getTime()));
+                } else {
+                    insStmt.setNull(4, Types.DATE);
+                }
+
+                insStmt.executeUpdate();
+            }
+
+            conn.commit();
+            return true;
+        } catch (SQLException ex) {
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException e) { /* ignore */ }
+            }
+            throw ex;
+        } finally {
+            if (conn != null) {
+                try { conn.setAutoCommit(true); conn.close(); } catch (SQLException e) { /* ignore */ }
+            }
+        }
+    }
+    
+    public boolean updateCurrentSalaryEndDate(int empno, java.util.Date endDate) throws SQLException {
+        String sql = "UPDATE salary_history SET end_date = ? WHERE empno = ? AND end_date IS NULL";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setDate(1, new java.sql.Date(endDate.getTime()));
+            stmt.setInt(2, empno);
+            
+            return stmt.executeUpdate() > 0;
+        }
+    }
+    
+    public double getCurrentSalary(int empno) throws SQLException {
+        String sql = "SELECT salary FROM salary_history WHERE empno = ? AND end_date IS NULL";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, empno);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getDouble("salary");
+            }
+        }
+        return 0;
+    }
+}

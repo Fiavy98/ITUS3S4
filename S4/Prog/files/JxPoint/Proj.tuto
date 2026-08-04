@@ -1,0 +1,69 @@
+Projet : Jeu de points avec tir au bazooka (C# + PostgreSQL)
+
+Description générale
+
+Le projet consiste à développer un jeu à deux joueurs, inspiré du jeu classique des points, mais enrichi avec un système de tir au bazooka.
+
+🟦 Plateau de jeu
+Le jeu se déroule sur un plateau en forme de carré (grille).
+Les joueurs placent leurs points sur les sommets (coins) des cases du carré.
+Le fonctionnement est similaire à un jeu de points classique.
+
+👥 Joueurs
+Le jeu se joue à 2 joueurs.
+Chaque joueur joue à tour de rôle.
+
+🎯 Objectif
+
+Un joueur gagne des points lorsqu’il réussit à :
+
+Aligner 5 points consécutifs :
+Horizontalement
+Verticalement
+Diagonal
+
+💣 Système de bazooka
+
+En plus de placer des points, chaque joueur peut utiliser un bazooka.
+
+💣 Position du bazooka
+💣 Position et déplacement du bazooka
+Le bazooka est placé sur les côtés du plateau :
+À droite pour le joueur 1
+À gauche pour le joueur 2
+Il peut se déplacer verticalement le long du bord :
+Vers le haut
+Vers le centre
+Vers le bas
+Quel que soit son déplacement, le bazooka reste aligné avec les lignes de la grille du plateau.
+
+⚙️ Actions possibles
+
+À chaque tour, le joueur peut choisir :
+
+Placer un point
+Tirer avec le bazooka
+
+
+🔫 Fonctionnement du tir
+Le joueur peut viser un point adverse.
+Si le tir est réussi :
+✅ Le point de l’adversaire disparaît
+Si le joueur touche son propre point :
+❌ Aucun effet (le point reste)
+
+🚀 Mécanique du tir
+Le tir possède une vitesse choisie entre 1 et 9.
+La trajectoire du tir :
+N’est pas droite
+Suit une courbe (type parabole / concave)
+La balle se déplace selon la vitesse choisie.
+
+🗄️ Base de données (PostgreSQL)
+
+La base de données servira à :
+
+Enregistrer les joueurs
+Sauvegarder les parties
+Stocker les positions des points
+Gérer les scores

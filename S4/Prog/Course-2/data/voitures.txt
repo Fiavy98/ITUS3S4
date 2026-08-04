@@ -1,0 +1,4 @@
+Ferrari;40;320
+Bugatti;25;400
+Toyota;10;180
+Bugi;20.0;320.0

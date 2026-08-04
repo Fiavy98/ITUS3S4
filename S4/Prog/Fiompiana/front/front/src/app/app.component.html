@@ -1,0 +1,19 @@
+<header>
+  <h1>{{ title }}</h1>
+  <nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Accueil</a>
+    <a routerLink="/races" routerLinkActive="active">Races</a>
+    <a routerLink="/lots" routerLinkActive="active">Lots</a>
+    <a [routerLink]="['/lots/visiter']">Visiter Lot</a>
+    <a [routerLink]="['/lots/situation']">Situation Lot</a>
+    <a [routerLink]="['/lots/incubation']">Incubation</a>
+    <br><br>
+    <h1>ETU 4373</h1>
+  </nav>
+</header>
+
+<div class="container">
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

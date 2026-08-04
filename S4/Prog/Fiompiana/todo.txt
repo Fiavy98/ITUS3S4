@@ -1,0 +1,209 @@
+-Quels sont le technologie utilise 
+    -Back : Node js
+    -Front : angular Type script
+    -Mysql server 
+-Commnent les utiliser 
+    -Quelle est son role 
+-Test a la fin
+
+===========================================
+-QUOI 
+    -Fiompiana Akoho
+    -Proffessionel
+COMMENT : 
+    1-Mampiditra Lot 
+        -Base
+            -table race
+                id
+                nom
+            -table lot :
+                -id
+                -nom
+                -date
+                -nb akoho
+                -idRace 
+                -age
+
+        -Front
+            -menu vers Rae
+            -Formulaire pour ajouter  un race
+                -Nom
+            -liste de race
+
+            -Tableau pour afficher le colonne du tableau  (crud)
+            -menu vers Lot
+            -Formulaire pour ajouter  un lot 
+                -Nom,date,race,Age
+            -Tableau pour afficher le colonne du tableau  (crud)
+
+    2-Variation de poids par race 
+        -Base
+            -table variationPoids: 
+                -semaine
+                -idrace
+                -poids_g
+                -Sakafo_g   
+        -Front  
+            -Menu voir le Situation par pace 
+            -liste de race 
+            -Formulaire ajouter 
+                -semaine, race (le race soit au menu),poids,sakafo
+            -tableau pour afficher (crud) 
+                -un petit bouton pour voir combien par jour 
+                    -le tableau devient par jour,mois, au lieu de par semaine
+                        -divise le poids et sakafo par 7 pour voir combien par jour
+                        -1 mois = s4 donc somme de poids et sakafo s1+...+s4
+    3-Prix par race 
+        -Base
+            -table prixRace :
+                -race
+                -prixUnitaire_sakafo (g)
+                -PrixDeVente (g)
+                -PrixVente_atody 
+        -calcul
+            -prixUnitaire_sakafo=somme variation.sakafo x prix unitaire/gramme
+            -PrixDeVente = a saissir
+            -PrixVente_atody = a saissir 
+        -Front
+            -Formulaire
+            -Tableau avec crud
+    4-Gestion atody-Akoho maty
+        -Base
+            -table visiteLot
+                id
+                NumLot
+                date
+                Maty
+                atody
+        -Front :
+        -Menu visiter un Lot
+            -Formulaire
+                -date
+                -Lot (le lot choisit)
+                -Ajouter un atody
+                -Ajouter Maty (Mihena ny isan'ny akoho ao amin'ilay lot)
+            -Gestion d'atody
+                -nb atody (where lot=lot choisit)
+                -Amidy :
+                    -je ne sais pas
+                -Afohy 
+                    -if afohy : inserer dans Lot , NomLot,nb akoho , Age , Date
+            -Tableau
+                -Lotxx,date,Maty,atody,atody nafohy, atody namidy form visiteLot
+    5-Situation par Lot (par date)
+        -insertion : a afficher automatiquement
+        -Formulaire pour choisir la date 
+        -Table situation Lot Colonne 
+                -NumLot
+                -NbAkoho
+                -Achat 
+                -Sakafo lany
+                -Maty
+                -Poids Moyen
+                -Prix de vente 
+                -nb atody
+                -prix atody
+                -Benefice
+
+            -Valeur du colonne : 
+                *dateChoisie = formulaire.date
+                *Lots = SELECT * FROM Lot WHERE Lot.date_entree <= dateChoisie
+                        -Pour chaque lot 
+                            -NumLot = Lot.id
+                            -getRace = Lot.race_id
+            
+                -NumLot = Lot.id
+                    WHERE Lot.date_entree <= dateChoisie
+                -NbAkoho = Lot.nb_akoho_initial - SUM(visiteLot.maty
+                            WHERE visiteLot.lot_id = Lot.id
+                            AND visiteLot.date_visite <= dateChoisie)
+                -Achat = Lot.nb_akoho_initial * prixRace.prix_vente
+                        WHERE prixRace.race_id = Lot.race_id
+                
+                *TotalSakafoParPoulet =SUM(variationPoids.sakafo WHERE variationPoids.race_id = getRace)
+                -SakafoLany = TotalSakafoParPoulet * Lot.nb_akoho_initial * prixRace.prixUnitaire_sakafo
+                            WHERE prixRace.race_id = getRace
+                -Maty = SUM(visiteLot.maty
+                        WHERE visiteLot.lot_id = Lot.id
+                        AND visiteLot.date_visite <= dateChoisie)
+                -PoidsMoyen = SUM(variationPoids.poids
+                            WHERE variationPoids.race_id = getRace)
+                            /
+                            COUNT(variationPoids.poids
+                            WHERE variationPoids.race_id = getRace)
+                -PrixVente = NbAkoho * prixRace.prix_vente
+                            WHERE prixRace.race_id = getRace
+                -NbAtody = SUM(visiteLot.atody
+                            WHERE visiteLot.lot_id = Lot.id
+                            AND visiteLot.date_visite <= dateChoisie)
+                -PrixAtody = NbAtody * prixRace.prixVente_atody
+                            WHERE prixRace.race_id = getRace
+                -Benefice =((NbAkoho * PoidsMoyen * prixRace.prix_vente) +
+                            (NbAtody * prixRace.prixVente_atody)) - (Achat + SakafoLany)
+                            WHERE prixRace.race_id = getRace
+            -Front  
+            -Menu Situation Lot 
+                aficher le tableau aavec le colonne dans table situationLot
+===============================================================================
+
+--===============================
+--SITUATION COLONNE CALCULÉE
+--===============================
+
+-Table situation Lot Colonne 
+        -NumLot : NumLot = lot.id
+        
+        -NbAkoho = lot.nb_akoho_initial - SUM(visiteLot.maty) où date_visite <= dateChoisie
+        
+        -Achat = lot.nb_akoho_initial * prixRace.prix_achat_poussin
+       
+        -SakafoLany = SakafoLany = SUM(variationPoids.sakafo_g pour semaines <= age_actuel) 
+             * prixRace.prixU_sakafo_g 
+             * NbAkoho
+       
+        -Maty = Maty = SUM(visiteLot.maty) où date_visite <= dateChoisie
+        
+        -PoidsMoyen = poids_g correspondant à la dernière semaine disponible <= age_actuel dans variationPoids
+        
+        -PrixVente = NbAkoho * PoidsMoyen / 1000 * prixRace.prixV_kg_poulet
+        
+        -NbAtody = quantité d'œufs disponible à la date choisie
+             * si une entrée dans stockAtody existe, on commence par stockAtody.nombre
+               (qui intègre transferts et destructions) puis on ajoute uniquement
+               les œufs produits après cette date
+             * sinon on prend la somme des visiteLot.nb_atody
+        
+        -PrixAtody = NbAtody * prixRace.prixV_atody
+       
+        -Benefice = PrixVente + PrixAtody - Achat - SakafoLany
+
+        -On ajoute un formulaire oeuf simba (detruit) dans le formulaire pour 
+        traduire le atody en lot (Atody → Avadika → Akoho (Lot vaovao)) dans 
+        visiteLot.component.html donc le nombre stockAtody.nombre=le oeuf restant - simba (detruit)
+
+        dans le situation lot le NbAtody est celui du lot dans stockAtody.lot_id donc il ne dois pas etre NULL
+        gerer bien le gestion du date pour que le stockAtody.nombre soit mis à jour correctement lors de l'ajout d'une visiteLot avec des atody détruits 
+        (simba) et que cela se reflète dans la situation du lot.
+
+
+
+
+
+configuration  par race 
+    -nombre du jour fohy /race : n
+    -mijanona ao anaty lot pendant n jour ilay atody vao fohy , age 0 mbola tsy misakafo , age 1 vao misakafo
+
+visite lot 
+    - apres nombre du jour fohy
+    -ampidirina ny isan'ny 
+        -atody fohy
+        -atody simba 
+        -% lahy sy % vavy par rapport au atody fohy
+
+DanshBoard
+-Afaka manome ny capacite maximum 
+    -Par rapport ny % vavy ao anaty lot : firy ny atody mety ho azo 
+
+-Visiter Lot : 
+-% maty  : lahy  sy vavy 
+    -rehefa vavy dia mihena zany ny capaciter 

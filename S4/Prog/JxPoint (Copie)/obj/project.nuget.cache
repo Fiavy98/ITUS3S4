@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "dgSpecHash": "XThz578Mk0A=",
+  "success": true,
+  "projectFilePath": "/home/kamado/ITU/S4/Prog/JxPoint (Copie)/JxPoint.csproj",
+  "expectedPackageFiles": [
+    "/home/kamado/.nuget/packages/avalonia/11.3.9/avalonia.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.angle.windows.natives/2.1.25547.20250602/avalonia.angle.windows.natives.2.1.25547.20250602.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.buildservices/11.3.2/avalonia.buildservices.11.3.2.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.controls.colorpicker/11.3.9/avalonia.controls.colorpicker.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.desktop/11.3.9/avalonia.desktop.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.diagnostics/11.3.9/avalonia.diagnostics.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.fonts.inter/11.3.9/avalonia.fonts.inter.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.freedesktop/11.3.9/avalonia.freedesktop.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.native/11.3.9/avalonia.native.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.remote.protocol/11.3.9/avalonia.remote.protocol.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.skia/11.3.9/avalonia.skia.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.themes.fluent/11.3.9/avalonia.themes.fluent.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.themes.simple/11.3.9/avalonia.themes.simple.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.win32/11.3.9/avalonia.win32.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/avalonia.x11/11.3.9/avalonia.x11.11.3.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/harfbuzzsharp/8.3.1.1/harfbuzzsharp.8.3.1.1.nupkg.sha512",
+    "/home/kamado/.nuget/packages/harfbuzzsharp.nativeassets.linux/8.3.1.1/harfbuzzsharp.nativeassets.linux.8.3.1.1.nupkg.sha512",
+    "/home/kamado/.nuget/packages/harfbuzzsharp.nativeassets.macos/8.3.1.1/harfbuzzsharp.nativeassets.macos.8.3.1.1.nupkg.sha512",
+    "/home/kamado/.nuget/packages/harfbuzzsharp.nativeassets.webassembly/8.3.1.1/harfbuzzsharp.nativeassets.webassembly.8.3.1.1.nupkg.sha512",
+    "/home/kamado/.nuget/packages/harfbuzzsharp.nativeassets.win32/8.3.1.1/harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg.sha512",
+    "/home/kamado/.nuget/packages/microcom.runtime/0.11.0/microcom.runtime.0.11.0.nupkg.sha512",
+    "/home/kamado/.nuget/packages/microsoft.extensions.logging.abstractions/6.0.0/microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "/home/kamado/.nuget/packages/npgsql/7.0.0/npgsql.7.0.0.nupkg.sha512",
+    "/home/kamado/.nuget/packages/skiasharp/2.88.9/skiasharp.2.88.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/skiasharp.nativeassets.linux/2.88.9/skiasharp.nativeassets.linux.2.88.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/skiasharp.nativeassets.macos/2.88.9/skiasharp.nativeassets.macos.2.88.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/skiasharp.nativeassets.webassembly/2.88.9/skiasharp.nativeassets.webassembly.2.88.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/skiasharp.nativeassets.win32/2.88.9/skiasharp.nativeassets.win32.2.88.9.nupkg.sha512",
+    "/home/kamado/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512",
+    "/home/kamado/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "/home/kamado/.nuget/packages/tmds.dbus.protocol/0.21.2/tmds.dbus.protocol.0.21.2.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Npgsql' 7.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-x9vc-6hfv-hg8c",
+      "libraryId": "Npgsql",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}

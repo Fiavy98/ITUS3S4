@@ -1,0 +1,5 @@
+/* Styles for AppComponent - empty for now */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}

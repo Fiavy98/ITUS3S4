@@ -1,0 +1,901 @@
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd pdg
+[sudo] Mot de passe de itu : 
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd comptable
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd tresorerie
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd commerciale
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd securite
+itu@itu-HP-ProBook-450-G1:~$ 
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel pdg
+[sudo] Mot de passe de itu : 
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel comptable
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel tresorerie
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel tresorerie
+groupdel : le groupe « tresorerie » n'existe pas
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel securite
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel commerciale
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/pdg
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/compta
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/tresor
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/securite
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd pdg
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd compta
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd tresor
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd securite
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG compta C1
+usermod : l'utilisateur C1 n'existe pas
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG compta C1
+usermod : l'utilisateur C1 n'existe pas
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+itu@itu-HP-ProBook-450-G1:~$ sudo start systemctl smbd
+sudo: start : commande introuvable
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl status smbd
+● smbd.service - Samba SMB Daemon
+     Loaded: loaded (/lib/systemd/system/smbd.service; enabled; vendor preset: >
+     Active: inactive (dead) since Thu 2024-10-24 13:55:28 EAT; 1h 15min ago
+       Docs: man:smbd(8)
+             man:samba(7)
+             man:smb.conf(5)
+    Process: 6697 ExecStartPre=/usr/share/samba/update-apparmor-samba-profile (>
+    Process: 6707 ExecStart=/usr/sbin/smbd --foreground --no-process-group $SMB>
+   Main PID: 6707 (code=killed, signal=TERM)
+     Status: "smbd: ready to serve connections..."
+
+Okt 24 10:58:02 itu-HP-ProBook-450-G1 systemd[1]: Starting Samba SMB Daemon...
+Okt 24 10:58:02 itu-HP-ProBook-450-G1 systemd[1]: Started Samba SMB Daemon.
+Okt 24 11:23:40 itu-HP-ProBook-450-G1 smbd[6765]: pam_unix(samba:session): sess>
+Okt 24 11:34:23 itu-HP-ProBook-450-G1 smbd[7883]: pam_unix(samba:session): sess>
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 systemd[1]: Stopping Samba SMB Daemon...
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 smbd[7883]: pam_unix(samba:session): sess>
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 systemd[1]: smbd.service: Succeeded.
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 systemd[1]: Stopped Samba SMB Daemon.
+...skipping...
+● smbd.service - Samba SMB Daemon
+     Loaded: loaded (/lib/systemd/system/smbd.service; enabled; vendor preset: >
+     Active: inactive (dead) since Thu 2024-10-24 13:55:28 EAT; 1h 15min ago
+       Docs: man:smbd(8)
+             man:samba(7)
+             man:smb.conf(5)
+    Process: 6697 ExecStartPre=/usr/share/samba/update-apparmor-samba-profile (>
+    Process: 6707 ExecStart=/usr/sbin/smbd --foreground --no-process-group $SMB>
+   Main PID: 6707 (code=killed, signal=TERM)
+     Status: "smbd: ready to serve connections..."
+
+Okt 24 10:58:02 itu-HP-ProBook-450-G1 systemd[1]: Starting Samba SMB Daemon...
+Okt 24 10:58:02 itu-HP-ProBook-450-G1 systemd[1]: Started Samba SMB Daemon.
+Okt 24 11:23:40 itu-HP-ProBook-450-G1 smbd[6765]: pam_unix(samba:session): sess>
+Okt 24 11:34:23 itu-HP-ProBook-450-G1 smbd[7883]: pam_unix(samba:session): sess>
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 systemd[1]: Stopping Samba SMB Daemon...
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 smbd[7883]: pam_unix(samba:session): sess>
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 systemd[1]: smbd.service: Succeeded.
+Okt 24 13:55:28 itu-HP-ProBook-450-G1 systemd[1]: Stopped Samba SMB Daemon.
+~
+~
+~
+~
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl start smbd
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl status smbd
+● smbd.service - Samba SMB Daemon
+     Loaded: loaded (/lib/systemd/system/smbd.service; enabled; vendor preset: >
+     Active: active (running) since Thu 2024-10-24 15:11:12 EAT; 4s ago
+       Docs: man:smbd(8)
+             man:samba(7)
+             man:smb.conf(5)
+    Process: 12774 ExecStartPre=/usr/share/samba/update-apparmor-samba-profile >
+   Main PID: 12783 (smbd)
+     Status: "smbd: ready to serve connections..."
+      Tasks: 5 (limit: 8997)
+     Memory: 9.9M
+     CGroup: /system.slice/smbd.service
+             ├─12783 /usr/sbin/smbd --foreground --no-process-group
+             ├─12785 /usr/sbin/smbd --foreground --no-process-group
+             ├─12786 /usr/sbin/smbd --foreground --no-process-group
+             ├─12787 /usr/lib/x86_64-linux-gnu/samba/samba-bgqd --ready-signal->
+             └─12791 /usr/sbin/smbd --foreground --no-process-group
+
+Okt 24 15:11:12 itu-HP-ProBook-450-G1 systemd[1]: Starting Samba SMB Daemon...
+Okt 24 15:11:12 itu-HP-ProBook-450-G1 systemd[1]: Started Samba SMB Daemon.
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/pdg
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/compta
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/tresor
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/securite
+itu@itu-HP-ProBook-450-G1:~$ sudo groupadd pdg
+groupadd : le groupe « pdg » existe déjà
+itu@itu-HP-ProBook-450-G1:~$ sudo rm -rf /srv/samba/share/securite
+itu@itu-HP-ProBook-450-G1:~$ sudo rm -rf /srv/samba/share/pdg
+itu@itu-HP-ProBook-450-G1:~$ sudo rm -rf /srv/samba/share/compta
+itu@itu-HP-ProBook-450-G1:~$ sudo rm -rf /srv/samba/share/tresor
+itu@itu-HP-ProBook-450-G1:~$ sudo rm -rf /srv/samba/share/commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel pdg
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel compta
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel tresor
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo groupdel securite
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo  groupadd pdg
+itu@itu-HP-ProBook-450-G1:~$ sudo  groupadd compta
+itu@itu-HP-ProBook-450-G1:~$ sudo  groupadd tresor
+itu@itu-HP-ProBook-450-G1:~$ sudo  groupadd commerce
+itu@itu-HP-ProBook-450-G1:~$ sudo  groupadd securite
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+itu@itu-HP-ProBook-450-G1:~$  sudo systemctl status smbd
+[sudo] Mot de passe de itu : 
+● smbd.service - Samba SMB Daemon
+     Loaded: loaded (/lib/systemd/system/smbd.service; enabled; vendor preset: >
+     Active: active (running) since Thu 2024-10-24 15:11:12 EAT; 28min ago
+       Docs: man:smbd(8)
+             man:samba(7)
+             man:smb.conf(5)
+    Process: 12774 ExecStartPre=/usr/share/samba/update-apparmor-samba-profile >
+   Main PID: 12783 (smbd)
+     Status: "smbd: ready to serve connections..."
+      Tasks: 5 (limit: 8997)
+     Memory: 10.0M
+     CGroup: /system.slice/smbd.service
+             ├─12783 /usr/sbin/smbd --foreground --no-process-group
+             ├─12785 /usr/sbin/smbd --foreground --no-process-group
+             ├─12786 /usr/sbin/smbd --foreground --no-process-group
+             ├─12787 /usr/lib/x86_64-linux-gnu/samba/samba-bgqd --ready-signal->
+             └─13497 /usr/sbin/smbd --foreground --no-process-group
+
+Okt 24 15:11:12 itu-HP-ProBook-450-G1 systemd[1]: Starting Samba SMB Daemon...
+Okt 24 15:11:12 itu-HP-ProBook-450-G1 systemd[1]: Started Samba SMB Daemon.
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl status smbd
+● smbd.service - Samba SMB Daemon
+     Loaded: loaded (/lib/systemd/system/smbd.service; enabled; vendor preset: >
+     Active: active (running) since Thu 2024-10-24 15:40:01 EAT; 14s ago
+       Docs: man:smbd(8)
+             man:samba(7)
+             man:smb.conf(5)
+    Process: 13519 ExecStartPre=/usr/share/samba/update-apparmor-samba-profile >
+   Main PID: 13528 (smbd)
+     Status: "smbd: ready to serve connections..."
+      Tasks: 5 (limit: 8997)
+     Memory: 9.9M
+     CGroup: /system.slice/smbd.service
+             ├─13528 /usr/sbin/smbd --foreground --no-process-group
+             ├─13531 /usr/sbin/smbd --foreground --no-process-group
+             ├─13532 /usr/sbin/smbd --foreground --no-process-group
+             ├─13533 /usr/lib/x86_64-linux-gnu/samba/samba-bgqd --ready-signal->
+             └─13535 /usr/sbin/smbd --foreground --no-process-group
+
+Okt 24 15:40:01 itu-HP-ProBook-450-G1 systemd[1]: Starting Samba SMB Daemon...
+Okt 24 15:40:01 itu-HP-ProBook-450-G1 systemd[1]: Started Samba SMB Daemon.
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:root /srv/samba
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod -R 770 /srv/samba
+itu@itu-HP-ProBook-450-G1:~$ sudo  groupadd compta
+groupadd : le groupe « compta » existe déjà
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta1
+New SMB password:
+Retype new SMB password:
+Failed to add entry for user compta1.
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta1
+New SMB password:
+Retype new SMB password:
+Failed to add entry for user compta1.
+itu@itu-HP-ProBook-450-G1:~$ sudo root -a compta1
+sudo: root : commande introuvable
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta1
+New SMB password:
+Retype new SMB password:
+Failed to add entry for user compta1.
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta1
+New SMB password:
+Retype new SMB password:
+Failed to add entry for user compta1.
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m compta1
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd compta1
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m compta2
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd compta2
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m compta3
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd compta3
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG compta compta1
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG compta compta2
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG compta compta3
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta1
+New SMB password:
+Retype new SMB password:
+Added user compta1.
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta2
+New SMB password:
+Retype new SMB password:
+Added user compta2.
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a compta3
+New SMB password:
+Retype new SMB password:
+Added user compta3.
+itu@itu-HP-ProBook-450-G1:~$ id compta1
+uid=1003(compta1) gid=1009(compta1) groupes=1009(compta1),1005(compta)
+itu@itu-HP-ProBook-450-G1:~$ pdbedit -L
+tdbsam_open: Failed to open/create TDB passwd [/var/lib/samba/private/passdb.tdb]
+tdbsam_getsampwnam: failed to open /var/lib/samba/private/passdb.tdb!
+User Search failed!
+itu@itu-HP-ProBook-450-G1:~$ id compta2
+uid=1004(compta2) gid=1010(compta2) groupes=1010(compta2),1005(compta)
+itu@itu-HP-ProBook-450-G1:~$ id compta3
+uid=1005(compta3) gid=1011(compta3) groupes=1011(compta3),1005(compta)
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ pwd
+/home/compta1
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta2
+Mot de passe : 
+$ pwd
+/home/compta2
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta3
+Mot de passe : 
+$ pwd
+/home/compta3
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta3
+Mot de passe : 
+$ whoami
+compta3
+$ smbclient -L //localhost -U compta3 
+Password for [WORKGROUP\compta3]:
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	itu             Disk      
+	print$          Disk      Printer Drivers
+	partage         Disk      
+	mondossierpartage Disk      
+	PDG             Disk      
+	Compta          Disk      
+	Tresor          Disk      
+	Commerce        Disk      
+	Securite        Disk      
+	IPC$            IPC       IPC Service (itu-HP-ProBook-450-G1 server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
+$ smbclient -L //localhost -U compta3
+Password for [WORKGROUP\compta3]:
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	itu             Disk      
+	print$          Disk      Printer Drivers
+	partage         Disk      
+	mondossierpartage Disk      
+	PDG             Disk      
+	Compta          Disk      
+	Tresor          Disk      
+	Commerce        Disk      
+	Securite        Disk      
+	IPC$            IPC       IPC Service (itu-HP-ProBook-450-G1 server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:compta /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod -R 2770 /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:root /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod -R 2770 /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m pdg1
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd pdg1
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m tresor1
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd tresor1
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m tresor2
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd tresor2
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG pdg pdg1
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a pdg1
+New SMB password:
+Retype new SMB password:
+Added user pdg1.
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG tresor tresor1
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a tresor1
+New SMB password:
+Retype new SMB password:
+Added user tresor1.
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG tresor tresor2
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a tresor2
+New SMB password:
+Retype new SMB password:
+Added user tresor2.
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ su - pdg1
+Mot de passe : 
+$ smbclient //localhost/compta -U pdg1
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> help
+?              allinfo        altname        archive        backup         
+blocksize      cancel         case_sensitive cd             chmod          
+chown          close          del            deltree        dir            
+du             echo           exit           get            getfacl        
+geteas         hardlink       help           history        iosize         
+lcd            link           lock           lowercase      ls             
+l              mask           md             mget           mkdir          
+more           mput           newer          notify         open           
+posix          posix_encrypt  posix_open     posix_mkdir    posix_rmdir    
+posix_unlink   posix_whoami   print          prompt         put            
+pwd            q              queue          quit           readlink       
+rd             recurse        reget          rename         reput          
+rm             rmdir          showacls       setea          setmode        
+scopy          stat           symlink        tar            tarmode        
+timeout        translate      unlock         volume         vuid           
+wdel           logon          listconnect    showconnect    tcon           
+tdis           tid            utimes         logoff         ..             
+!              
+smb: \> exit
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ pwd
+/home/itu
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/pdg/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:pdg /srv/samba/share/pdg/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod -R 2770 /srv/samba/share/pdg/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/tresor/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:tresor /srv/samba/share/tresor/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod -R 2770 /srv/samba/share/tresor/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ su - pdg1
+Mot de passe : 
+$ smbclient -L //localhost -U pdg1
+Password for [WORKGROUP\pdg1]:
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	itu             Disk      
+	print$          Disk      Printer Drivers
+	partage         Disk      
+	mondossierpartage Disk      
+	Compta          Disk      
+	Tresor          Disk      
+	Commerce        Disk      
+	Securite        Disk      
+	IPC$            IPC       IPC Service (itu-HP-ProBook-450-G1 server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
+$ smbclient //localhost/pdg -U pdg1
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> exit
+$ smbclient //localhost/tresor -U pdg1
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> smbclient //localhost/tresor -U pdg1
+smbclient: command not found
+smb: \> help
+?              allinfo        altname        archive        backup         
+blocksize      cancel         case_sensitive cd             chmod          
+chown          close          del            deltree        dir            
+du             echo           exit           get            getfacl        
+geteas         hardlink       help           history        iosize         
+lcd            link           lock           lowercase      ls             
+l              mask           md             mget           mkdir          
+more           mput           newer          notify         open           
+posix          posix_encrypt  posix_open     posix_mkdir    posix_rmdir    
+posix_unlink   posix_whoami   print          prompt         put            
+pwd            q              queue          quit           readlink       
+rd             recurse        reget          rename         reput          
+rm             rmdir          showacls       setea          setmode        
+scopy          stat           symlink        tar            tarmode        
+timeout        translate      unlock         volume         vuid           
+wdel           logon          listconnect    showconnect    tcon           
+tdis           tid            utimes         logoff         ..             
+!              
+smb: \> get 
+get <filename> [localname]
+smb: \> pwd
+Current directory is \\localhost\tresor\
+smb: \> q
+$ smbclient //localhost/compta -U pdg1
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> q
+$ q
+-sh: 5: q: not found
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - tresor2
+Mot de passe : 
+$ smbclient -L //localhost -U compta1
+Password for [WORKGROUP\compta1]:
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	itu             Disk      
+	print$          Disk      Printer Drivers
+	partage         Disk      
+	mondossierpartage Disk      
+	Compta          Disk      
+	Tresor          Disk      
+	Commerce        Disk      
+	Securite        Disk      
+	IPC$            IPC       IPC Service (itu-HP-ProBook-450-G1 server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
+$ smbclient //localhost/tresor -U compta1
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> q
+$ smbclient //localhost/pdg -U tresor2
+Password for [WORKGROUP\tresor2]:
+tree connect failed: NT_STATUS_ACCESS_DENIED
+$ smbclient //localhost/compta -U tresor2
+Password for [WORKGROUP\tresor2]:
+Try "help" to get a list of possible commands.
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ smbclient //localhost/tresor -U compta1
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> q
+$ smbclient //localhost/pdg -U compta1 
+Password for [WORKGROUP\compta1]:
+tree connect failed: NT_STATUS_ACCESS_DENIED
+$  
+
+
+//part2
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ smbclient //localhost/pdg -U compta1 
+Password for [WORKGROUP\compta1]:
+tree connect failed: NT_STATUS_ACCESS_DENIED
+$ smbclient //localhost/compta -U compta1
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> q
+$ echo "Ceci est un test de compta1" > test_compta1.txt^[[D^[[D^[[D^[[D^[[D^[[D^[                         
+$ echo "Ceci est un test de compta1" > test_compta1.txt
+$ echo "Compta1 fichier" > compta1.txt                     
+$ smbclient //localhost/compta -U compta1
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> put compta1.txt
+NT_STATUS_ACCESS_DENIED opening remote file \compta1.txt
+smb: \> ls
+NT_STATUS_ACCESS_DENIED listing \*
+smb: \> q
+$ smbclient //localhost/compta -U compta1 -m SMB3
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> put compta1.txt
+NT_STATUS_ACCESS_DENIED opening remote file \compta1.txt
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ sudo nano /etc/samba/smb.conf
+[sudo] Mot de passe de itu : 
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:compta /srv/samba/share/compta/shared
+[sudo] Mot de passe de itu : 
+itu@itu-HP-ProBook-450-G1:~$ sudo chown root:compta /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$  chown root:compta /srv/samba/share/compta/shared
+chown: impossible d'accéder à '/srv/samba/share/compta/shared': Permission non accordée
+itu@itu-HP-ProBook-450-G1:~$ sudo mkdir -p /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod 755 /srv
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod 755 /srv/samba
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod 755 /srv/samba/share
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod 755 /srv/samba/share/compta
+itu@itu-HP-ProBook-450-G1:~$ sudo chmod 770 /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ sudo chown -R root:compta /srv/samba/share/compta/shared
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ sudo chown -R root:compta /srv/samba/share/compta/shared
+[sudo] Mot de passe de compta1 : 
+compta1 n'apparaît pas dans le fichier sudoers. Cet incident sera signalé.
+$ smbclient //localhost/compta -U compta1 -m SMB3
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> pwd
+Current directory is \\localhost\compta\
+smb: \> ls
+  .                                   D        0  Thu Oct 24 16:09:01 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+
+		52731708 blocks of size 1024. 12585400 blocks available
+smb: \> put compta1.txt
+putting file compta1.txt as \compta1.txt (0,5 kb/s) (average 0,5 kb/s)
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:15:00 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  compta1.txt                         A       16  Fri Oct 25 09:15:00 2024
+
+		52731708 blocks of size 1024. 12585344 blocks available
+smb: \> txt
+txt: command not found
+smb: \> echo "This vient de compta1" > compta1.txt
+smb: \> put compta1.txt
+putting file compta1.txt as \compta1.txt (5,2 kb/s) (average 0,8 kb/s)
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:15:00 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12584244 blocks available
+smb: \> exit
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta2
+Mot de passe : 
+$ smbclient //localhost/compta -U compta2
+Password for [WORKGROUP\compta2]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:15:00 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12583660 blocks available
+smb: \> get compta1.txt
+getting file \compta1.txt of size 16 as compta1.txt (5,2 KiloBytes/sec) (average 5,2 KiloBytes/sec)
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:15:00 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12583588 blocks available
+smb: \> echo "De compta2 : bien recu" > compta2.txt
+smb: \> cat compta1.txt
+cat: command not found
+smb: \> cat compta2.txt
+cat: command not found
+smb: \> more compta1.txt
+getting file \compta1.txt of size 16 as /tmp/smbmore.akKVec (7,8 KiloBytes/sec) (average 6,2 KiloBytes/sec)
+smb: \> more compta2.txt
+NT_STATUS_OBJECT_NAME_NOT_FOUND opening remote file \compta2.txt
+smb: \> more compta1.txt
+getting file \compta1.txt of size 16 as /tmp/smbmore.PM7A0a (3,9 KiloBytes/sec) (average 5,2 KiloBytes/sec)
+smb: \> more compta2.txt
+NT_STATUS_OBJECT_NAME_NOT_FOUND opening remote file \compta2.txt
+smb: \> more compta2.txt
+NT_STATUS_OBJECT_NAME_NOT_FOUND opening remote file \compta2.txt
+smb: \> put compta2.txt
+compta2.txt does not exist
+smb: \> q
+$ echo "De compta2 : yes,bien recu" > compta2.txt
+$ cat compta2.txt
+De compta2 : yes,bien recu
+$ cat compta1.txt
+Compta1 fichier
+$ ls        
+compta1.txt  compta2.txt
+$ put compta2.txt
+-sh: 6: put: not found
+$ smbclient //localhost/compta -U compta2
+Password for [WORKGROUP\compta2]:
+Try "help" to get a list of possible commands.
+smb: \> put compta2.txt
+putting file compta2.txt as \compta2.txt (5,3 kb/s) (average 5,3 kb/s)
+smb: \> more compta2.txt
+getting file \compta2.txt of size 27 as /tmp/smbmore.XYl73B (8,8 KiloBytes/sec) (average 8,8 KiloBytes/sec)
+smb: \> more compta2.txt
+getting file \compta2.txt of size 27 as /tmp/smbmore.E0bYfB (8,8 KiloBytes/sec) (average 8,8 KiloBytes/sec)
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ ls
+compta1.txt  test_compta1.txt
+$ get compta2.txt
+-sh: 2: get: not found
+$ smbclient //localhost/compta -U compta1
+Password for [WORKGROUP\compta1]:
+Try "help" to get a list of possible commands.
+smb: \> get compta2.txt
+getting file \compta2.txt of size 27 as compta2.txt (6,6 KiloBytes/sec) (average 6,6 KiloBytes/sec)
+smb: \> more compta2.txt
+getting file \compta2.txt of size 27 as /tmp/smbmore.jrqgjN (13,2 KiloBytes/sec) (average 8,8 KiloBytes/sec)
+smb: \> exit
+$ ls 
+compta1.txt  compta2.txt  test_compta1.txt
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta3
+Mot de passe : 
+$ ls
+$ smbclient //localhost/compta -U compta3
+Password for [WORKGROUP\compta3]:
+Try "help" to get a list of possible commands.
+smb: \> get compta1.txt
+getting file \compta1.txt of size 16 as compta1.txt (3,9 KiloBytes/sec) (average 3,9 KiloBytes/sec)
+smb: \> get compta2.txt
+getting file \compta2.txt of size 27 as compta2.txt (8,8 KiloBytes/sec) (average 6,0 KiloBytes/sec)
+smb: \> exit
+$ ls
+compta1.txt  compta2.txt
+$ exit 
+itu@itu-HP-ProBook-450-G1:~$ su - tresor1
+Mot de passe : 
+$ ls
+$ echo "Tresor 1 : Ohatrinona no izy ?" > tresor1.txt
+$ smbclient //localhost/tresor -U tresor1
+Password for [WORKGROUP\tresor1]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Thu Oct 24 16:26:35 2024
+  ..                                  D        0  Thu Oct 24 16:26:35 2024
+
+		52731708 blocks of size 1024. 12582588 blocks available
+smb: \> get compta1.txt
+NT_STATUS_OBJECT_NAME_NOT_FOUND opening remote file \compta1.txt
+smb: \> smbclient //localhost/compta -U tresor1
+smbclient: command not found
+smb: \> q
+$  smbclient //localhost/compta -U tresor1
+Password for [WORKGROUP\tresor1]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:28:54 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  compta2.txt                         A       27  Fri Oct 25 09:28:54 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12581268 blocks available
+smb: \> put tresor1.txt
+putting file tresor1.txt as \tresor1.txt (10,1 kb/s) (average 10,1 kb/s)
+smb: \> get compta2.txt
+getting file \compta2.txt of size 27 as compta2.txt (8,8 KiloBytes/sec) (average 8,8 KiloBytes/sec)
+smb: \> q
+$ ls
+compta2.txt  tresor1.txt
+$ smbclient //localhost/tresor -U tresor1
+Password for [WORKGROUP\tresor1]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Thu Oct 24 16:26:35 2024
+  ..                                  D        0  Thu Oct 24 16:26:35 2024
+
+		52731708 blocks of size 1024. 12580776 blocks available
+smb: \> put tresor1.txt
+putting file tresor1.txt as \tresor1.txt (7,6 kb/s) (average 7,6 kb/s)
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - treso2
+su: l'identifiant treso2 n'existe pas.
+itu@itu-HP-ProBook-450-G1:~$  
+itu@itu-HP-ProBook-450-G1:~$ su - tresor2
+Mot de passe : 
+su: Échec de l’authentification
+itu@itu-HP-ProBook-450-G1:~$  su - tresor2
+Mot de passe : 
+$ ls
+$ smbclient //localhost/compta -U tresor2
+Password for [WORKGROUP\tresor2]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:41:07 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:41:07 2024
+  compta2.txt                         A       27  Fri Oct 25 09:28:54 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12580592 blocks available
+smb: \> get compta1.txt
+getting file \compta1.txt of size 16 as compta1.txt (5,2 KiloBytes/sec) (average 5,2 KiloBytes/sec)
+smb: \> q
+$ echo "Fa inona izao fa tsy azoko io ?" > tresor2.txt
+$ ls
+compta1.txt  tresor2.txt
+$ smbclient //localhost/compta -U tresor1
+Password for [WORKGROUP\tresor1]:
+Try "help" to get a list of possible commands.
+smb: \> put tresor2.txt
+putting file tresor2.txt as \tresor2.txt (6,2 kb/s) (average 6,2 kb/s)
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:45:21 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  tresor2.txt                         A       32  Fri Oct 25 09:45:21 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:41:07 2024
+  compta2.txt                         A       27  Fri Oct 25 09:28:54 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12580416 blocks available
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - tresor2
+Mot de passe : 
+$ smbclient //localhost/tresor -U tresor2
+Password for [WORKGROUP\tresor2]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:42:33 2024
+  ..                                  D        0  Thu Oct 24 16:26:35 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:42:33 2024
+
+		52731708 blocks of size 1024. 12580120 blocks available
+smb: \> get tresor1.txt
+getting file \tresor1.txt of size 31 as tresor1.txt (10,1 KiloBytes/sec) (average 10,1 KiloBytes/sec)
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta3
+Mot de passe : 
+$ ls
+compta1.txt  compta2.txt
+$ smbclient //localhost/tresor -U compta3
+Password for [WORKGROUP\compta3]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:42:33 2024
+  ..                                  D        0  Thu Oct 24 16:26:35 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:42:33 2024
+
+		52731708 blocks of size 1024. 12579736 blocks available
+smb: \> exit
+$ smbclient //localhost/compta -U compta3
+Password for [WORKGROUP\compta3]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:45:21 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  tresor2.txt                         A       32  Fri Oct 25 09:45:21 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:41:07 2024
+  compta2.txt                         A       27  Fri Oct 25 09:28:54 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12579588 blocks available
+smb: \> get tresor2.txt
+getting file \tresor2.txt of size 32 as tresor2.txt (10,4 KiloBytes/sec) (average 10,4 KiloBytes/sec)
+smb: \> q
+$ ls
+compta1.txt  compta2.txt  tresor2.txt
+$ quit
+-sh: 5: quit: not found
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - pdg1
+Mot de passe : 
+$ ls
+$ smbclient //localhost/compta -U pdg1   
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:45:21 2024
+  ..                                  D        0  Thu Oct 24 16:09:01 2024
+  tresor2.txt                         A       32  Fri Oct 25 09:45:21 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:41:07 2024
+  compta2.txt                         A       27  Fri Oct 25 09:28:54 2024
+  compta1.txt                         A       16  Fri Oct 25 09:17:12 2024
+
+		52731708 blocks of size 1024. 12579368 blocks available
+smb: \> get compta2.txt
+getting file \compta2.txt of size 27 as compta2.txt (8,8 KiloBytes/sec) (average 8,8 KiloBytes/sec)
+smb: \> q
+$ ls 
+compta2.txt
+$ cat compta2.txt
+De compta2 : yes,bien recu
+$ smbclient //localhost/tresor -U pdg1   
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:42:33 2024
+  ..                                  D        0  Thu Oct 24 16:26:35 2024
+  tresor1.txt                         A       31  Fri Oct 25 09:42:33 2024
+
+		52731708 blocks of size 1024. 12579136 blocks available
+smb: \> get tresor1.txt
+getting file \tresor1.txt of size 31 as tresor1.txt (10,1 KiloBytes/sec) (average 10,1 KiloBytes/sec)
+smb: \> q
+$ ls
+compta2.txt  tresor1.txt
+$ smbclient //localhost/pdg -U pdg1      
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Thu Oct 24 16:25:41 2024
+  ..                                  D        0  Thu Oct 24 16:25:41 2024
+
+		52731708 blocks of size 1024. 12578972 blocks available
+smb: \> q
+$ echo "The vert : pdg1" > pdg1.txt
+$ ls
+compta2.txt  pdg1.txt  tresor1.txt
+$ smbclient //localhost/pdg -U pdg1      
+Password for [WORKGROUP\pdg1]:
+Try "help" to get a list of possible commands.
+smb: \> put pdg1.txt
+putting file pdg1.txt as \pdg1.txt (3,1 kb/s) (average 3,1 kb/s)
+smb: \> ls
+  .                                   D        0  Fri Oct 25 09:52:51 2024
+  ..                                  D        0  Thu Oct 24 16:25:41 2024
+  pdg1.txt                            A       16  Fri Oct 25 09:52:51 2024
+
+		52731708 blocks of size 1024. 12578468 blocks available
+smb: \> q
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ su - compta1
+Mot de passe : 
+$ smbclient //localhost/pdg -U compta1   
+Password for [WORKGROUP\compta1]:
+tree connect failed: NT_STATUS_ACCESS_DENIED
+$ exit
+itu@itu-HP-ProBook-450-G1:~$ 
+
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m securite1
+[sudo] Mot de passe de itu : 
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m commerce1
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd securite1
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd commerce1
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m commerce2
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd commerce2
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m securite2
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd securite2
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG securite securite1
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG securite securite2
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a securite1
+New SMB password:
+Retype new SMB password:
+Added user securite1.
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a securite2
+New SMB password:
+Retype new SMB password:
+Added user securite2.
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG commerce commerce1
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG commerce commerce2
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a commerce1
+New SMB password:
+Retype new SMB password:
+Added user commerce1.
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a commerce2
+New SMB password:
+Retype new SMB password:
+Added user commerce2.
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m commerce3
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd commerce3
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo useradd -m commerce4
+itu@itu-HP-ProBook-450-G1:~$ sudo passwd commerce4
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG commerce commerce3
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a commerce3
+New SMB password:
+Retype new SMB password:
+Added user commerce3.
+itu@itu-HP-ProBook-450-G1:~$ sudo usermod -aG commerce commerce4
+itu@itu-HP-ProBook-450-G1:~$ sudo smbpasswd -a commerce4
+New SMB password:
+Retype new SMB password:
+Added user commerce4.
+itu@itu-HP-ProBook-450-G1:~$ sudo systemctl restart smbd
+
+
+
+
+
+

@@ -1,0 +1,66 @@
+<h2>Prix Race</h2>
+
+<div *ngIf="error" style="color:red">{{error}}</div>
+
+<form class="form-card" (ngSubmit)="save()">
+  <div class="form-row">
+    <div class="form-group">
+      <label>Race ID:</label>
+      <input type="number" name="race_id" [(ngModel)]="formModel.race_id" required>
+    </div>
+    <div class="form-group">
+      <label>Prix nourriture (g):</label>
+      <input type="number" step="0.01" name="prixU_sakafo_g" [(ngModel)]="formModel.prixU_sakafo_g">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Prix poulet (kg):</label>
+      <input type="number" step="0.01" name="prixV_kg_poulet" [(ngModel)]="formModel.prixV_kg_poulet">
+    </div>
+    <div class="form-group">
+      <label>Prix œuf:</label>
+      <input type="number" step="0.01" name="prixV_atody" [(ngModel)]="formModel.prixV_atody">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Prix poussin:</label>
+      <input type="number" step="0.01" name="prix_achat_poussin" [(ngModel)]="formModel.prix_achat_poussin">
+    </div>
+  </div>
+  <div class="form-button">
+    <button type="submit" [disabled]="saving">Créer</button>
+  </div>
+</form>
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="!loading && !prix.length">Aucune donnée.</div>
+
+<table border="1" *ngIf="!loading && prix.length">
+  <thead>
+<tr>
+<th>ID</th>
+<th>Race</th>
+<th>Prix nourriture (g)</th>
+<th>Prix poulet (kg)</th>
+<th>Prix œuf</th>
+<th>Prix poussin</th>
+</tr>
+  </thead>
+
+<tbody>
+<tr *ngFor="let p of prix">
+<td>{{p.id}}</td>
+<td>{{p.race_nom || p.race_id}}</td>
+<td>{{p.prixU_sakafo_g}}</td>
+<td>{{p.prixV_kg_poulet}}</td>
+<td>{{p.prixV_atody}}</td>
+<td>{{p.prix_achat_poussin}}</td>
+</tr>
+</tbody>
+
+</table>
+
+<br>
+<a routerLink="/races">Retour</a>

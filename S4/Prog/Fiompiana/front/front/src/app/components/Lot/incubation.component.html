@@ -1,0 +1,94 @@
+<h2>Incubation</h2>
+<div *ngIf="error" style="color:red">{{ error }}</div>
+
+<section>
+  <h3>Créer une incubation</h3>
+  <form (ngSubmit)="createIncubation()">
+    <div>
+      <label>Lot source</label>
+      <select [(ngModel)]="createModel.lot_source" name="lot_source" required>
+        <option value="0" disabled selected>Choisir un lot</option>
+        <option *ngFor="let l of lots" [value]="l.id">{{ l.nom }} ({{ l.race_nom }})</option>
+      </select>
+    </div>
+    <div>
+      <label>Œufs</label>
+      <input type="number" [(ngModel)]="createModel.nb_oeufs" name="nb_oeufs" required>
+    </div>
+    <div>
+      <label>Date début</label>
+      <input type="date" [(ngModel)]="createModel.date_debut" name="date_debut" required>
+    </div>
+    <button type="submit">Créer</button>
+  </form>
+</section>
+
+<section>
+  <h3>Incubations</h3>
+  <div *ngIf="loading">Chargement...</div>
+  <table border="1" *ngIf="!loading && incubations.length">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Lot source</th>
+        <th>Race</th>
+        <th>Nb œufs</th>
+        <th>Date début</th>
+        <th>Date éclosion</th>
+        <th>Etat</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inc of incubations">
+        <td>{{ inc.id }}</td>
+        <td>{{ inc.lot_source_nom || inc.lot_source }}</td>
+        <td>{{ inc.race_nom }}</td>
+        <td>{{ inc.nb_oeufs }}</td>
+        <td>{{ inc.date_debut }}</td>
+        <td>{{ inc.date_eclosion_prevue }}</td>
+        <td>{{ inc.etat }}</td>
+        <td>
+          <button (click)="selectToHatch(inc)" [disabled]="inc.etat !== 'incubating'">Éclore</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section *ngIf="selectedIncubation">
+  <h3>Éclosion - incubation #{{ selectedIncubation.id }}</h3>
+  <p>Lot source: {{ selectedIncubation.lot_source_nom || selectedIncubation.lot_source }}</p>
+  <form (ngSubmit)="hatch()">
+    <div>
+      <label>Œufs éclos (hatched)</label>
+      <input type="number" [(ngModel)]="hatchModel.nb_oeufs_hatched" name="nb_oeufs_hatched" required>
+    </div>
+    <div>
+      <label>Œufs ratés (failed)</label>
+      <input type="number" [(ngModel)]="hatchModel.nb_oeufs_failed" name="nb_oeufs_failed" required>
+    </div>
+    <div>
+      <label>% lahy</label>
+      <input type="number" [(ngModel)]="hatchModel.pct_lahy" name="pct_lahy" min="0" max="100">
+    </div>
+    <div>
+      <label>% vavy</label>
+      <input type="number" [(ngModel)]="hatchModel.pct_vavy" name="pct_vavy" min="0" max="100">
+    </div>
+    <div>
+      <label>Nom lot créé</label>
+      <!-- Correction 1 : hatchModel est maintenant HatchModel, donc nom existe -->
+      <input type="text" [(ngModel)]="hatchModel.nom" name="nom">
+    </div>
+    <div>
+      <label>Date entrée</label>
+      <!-- Correction 2 : suppression de value="{{ new Date()... }}", ngModel suffit -->
+      <input type="date" [(ngModel)]="hatchModel.date_entree" name="date_entree">
+    </div>
+    <button type="submit">Valider éclosion</button>
+    <button type="button" (click)="selectedIncubation = undefined">Annuler</button>
+  </form>
+</section>
+
+<a [routerLink]="['/lots']">Retour</a>

@@ -1,0 +1,49 @@
+# Gestion des Écritures Comptables pour les Mouvements de Stock
+
+## Objectif
+
+Mettre en place un système de génération automatique des écritures comptables lors des mouvements de stock (Entrée, Sortie).
+
+Chaque mouvement de stock doit générer :
+
+- Une écriture mère (entête)
+- Plusieurs écritures fils (détails comptables)
+
+Le système doit être générique afin d'être réutilisable pour tous les types de mouvements.
+
+---
+
+# Structure de la base de données
+- Ecriture mere
+    - date 
+    - libelle 
+    - Journal ("Stock")
+
+- Ecriture fils
+    - Compte (Numero de Compte) 
+    - Libelle 
+    - Debit 
+    - Credit
+    - Source (id Mouvement)
+---
+- Fonction Pour MouvementStock
+    - generaliserEcriture()
+        - Fonction appeler si on fait l'ecriture du Mere et fils lors du mouvement 
+
+## Architecture
+
+```text
+mouvement_stock
+       |
+       v
+generaliserEcriture()
+       |
+       +--> ecriture_mere
+       |
+       +--> ecriture_fils
+       |
+       v
+  Tableau des écritures comptables
+```
+
+Cette architecture permet de tracer chaque mouvement de stock jusqu'aux écritures comptables générées.

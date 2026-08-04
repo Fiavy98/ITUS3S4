@@ -1,0 +1,3 @@
+idCours:TEXT
+idEtudiant:INT
+note:TEXT

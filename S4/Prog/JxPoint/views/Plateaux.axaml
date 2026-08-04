@@ -1,0 +1,162 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="JxPoint.Views.Plateaux"
+             Background="#0f0f13">
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#f5c542"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="#888"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,6,0,2"/>
+        </Style>
+        <Style Selector="Button.action">
+            <Setter Property="Background" Value="#1a1a22"/>
+            <Setter Property="Foreground" Value="#f0f0f0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="6"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Ecrans multiples -->
+        <StackPanel x:Name="ScreenTitle" Grid.Row="0" Margin="16" IsVisible="True">
+            <TextBlock Text="BAZOOKA POINTS" Classes="heading"/>
+            <TextBlock Text="Jeu de stratégie • 2 joueurs" Foreground="#888" Margin="0,0,0,18"/>
+
+            <TextBlock Text="Joueur 1" Classes="label"/>
+            <TextBox x:Name="InputJ1" Text="Joueur 1" MinWidth="260"/>
+
+            <TextBlock Text="Joueur 2" Classes="label"/>
+            <TextBox x:Name="InputJ2" Text="Joueur 2" MinWidth="260"/>
+
+            <TextBlock Text="Taille du plateau" Classes="label"/>
+            <ComboBox x:Name="InputSize" SelectedIndex="1" MinWidth="260">
+                <ComboBoxItem Content="8"/>
+                <ComboBoxItem Content="9"/>
+                <ComboBoxItem Content="10"/>
+                <ComboBoxItem Content="12"/>
+            </ComboBox>
+
+            <Button x:Name="BtnStart" Classes="action" Content="DÉMARRER LA PARTIE" Margin="0,12,0,0" Click="OnStartGame"/>
+            <TextBlock Text="Alignez 5 points pour marquer. Utilisez le bazooka pour détruire les points adverses." Foreground="#888" FontSize="11" Margin="0,8,0,0"/>
+
+            <TextBlock Text="Historique des parties" Foreground="#f5c542" FontWeight="Bold" Margin="0,16,0,5"/>
+            <ListBox x:Name="HistoryList" Height="120" SelectionChanged="OnHistorySelectionChanged"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6" Margin="0,6,0,0">
+                <Button x:Name="BtnLoadSelected" Content="🔁 Charger sélection" Classes="action" Click="OnLoadSelectedGame"/>
+                <Button x:Name="BtnLoadLatest" Content="▶ Charger dernière" Classes="action" Click="OnLoadGame"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid x:Name="ScreenGame" Grid.Row="1" IsVisible="False" Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top status bar -->
+            <Border Background="#1a1a22" CornerRadius="6" Padding="10" Margin="0,0,0,10">
+                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                        <TextBlock x:Name="TurnLabel" Text="Tour : Joueur 1" Foreground="#fff" FontWeight="Bold"/>
+                        <TextBlock x:Name="LargeScoreLabel" Text="Score : J1 0 - J2 0" Foreground="#f5c542" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock x:Name="VeryLargeNumber" Text="ETU 4373" Foreground="#EF4444" FontSize="40" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="4">
+                        <Button x:Name="BtnPlace" Content="📌 Placer" Classes="action" Click="OnSelectPlace"/>
+                        <Button x:Name="BtnShoot" Content="💣 Tirer" Classes="action" Click="OnSelectShoot"/>
+                    
+                    </StackPanel>
+                    <TextBlock x:Name="ScoreLabel" Grid.Row="0" Grid.Column="2" Text="J1: 0 | J2: 0" Foreground="#f5c542" HorizontalAlignment="Right" FontSize="14"/>
+                    <TextBlock x:Name="ActionHintLabel" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="Sélectionnez une action" Foreground="#888" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                </Grid>
+            </Border>
+            
+
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                    <!-- J1 panel -->
+                    <StackPanel Grid.Column="0" Width="180" Background="#1a1a22" Spacing="8">
+                    <TextBlock Text="Joueur 1" Foreground="#3B82F6" FontWeight="Bold"/>
+                    <TextBlock x:Name="PlacedJ1" Text="Points posés: 0" Foreground="#fff"/> 
+                    <TextBlock x:Name="HitsJ1" Text="Tirs réussis: 0" Foreground="#fff"/>
+                    <TextBlock Text="Bazooka" Foreground="#888" FontSize="12" Margin="0,6,0,0"/>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <Button x:Name="BtnBazUp1" Content="▲" Click="OnBazUp1" Classes="action"/>
+                        <Button x:Name="BtnBazDown1" Content="▼" Click="OnBazDown1" Classes="action"/>
+                    </StackPanel>
+                    <TextBlock x:Name="BazRow1" Text="Ligne: -" Foreground="#f5c542"/>
+                    <TextBlock Text="Vitesse" Foreground="#888" FontSize="12"/>
+                    <Slider x:Name="Speed1" Minimum="1" Maximum="9" Value="5" ValueChanged="OnSpeedChanged"/>
+                    <TextBlock x:Name="SpeedVal1" Text="5" Foreground="#fff"/>
+                    <Button x:Name="BtnFire1" Content="🔥 TIRER" Classes="action" Click="OnFire1"/>
+                </StackPanel>
+
+                <!-- Canvas -->
+                <Border Grid.Column="1" Background="#1a1a22" Padding="8" CornerRadius="8">
+                    <Canvas x:Name="GameCanvas" Width="660" Height="660" Background="#1a1a22" />
+                </Border>
+
+                <!-- J2 panel -->
+                <StackPanel Grid.Column="2" Width="180" Background="#1a1a22" Spacing="8">
+                    <TextBlock Text="Joueur 2" Foreground="#EF4444" FontWeight="Bold"/>
+                    <TextBlock x:Name="PlacedJ2" Text="Points posés: 0" Foreground="#fff"/> 
+                    <TextBlock x:Name="HitsJ2" Text="Tirs réussis: 0" Foreground="#fff"/>
+                    <TextBlock Text="Bazooka" Foreground="#888" FontSize="12" Margin="0,6,0,0"/>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <Button x:Name="BtnBazUp2" Content="▲" Click="OnBazUp2" Classes="action"/>
+                        <Button x:Name="BtnBazDown2" Content="▼" Click="OnBazDown2" Classes="action"/>
+                    </StackPanel>
+                    <TextBlock x:Name="BazRow2" Text="Ligne: -" Foreground="#f5c542"/>
+                    <TextBlock Text="Vitesse" Foreground="#888" FontSize="12"/>
+                    <Slider x:Name="Speed2" Minimum="1" Maximum="9" Value="5" ValueChanged="OnSpeedChanged"/>
+                    <TextBlock x:Name="SpeedVal2" Text="5" Foreground="#fff"/>
+                    <Button x:Name="BtnFire2" Content="🔥 TIRER" Classes="action" Click="OnFire2"/>
+                </StackPanel>
+            </Grid>
+            </ScrollViewer>
+
+            <!-- Log + actions -->
+            <StackPanel Grid.Row="2" Margin="0,10,0,0" Spacing="8">
+                <Border Background="#1a1a22" CornerRadius="8" Padding="6" Height="90">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="LogPanel" />
+                    </ScrollViewer>
+                </Border>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="8">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                        <Button x:Name="BtnSave" Content="💾 Sauvegarder" Classes="action" Click="OnSaveGame"/>
+                        <Button x:Name="BtnLoad" Content="📂 Charger" Classes="action" Click="OnLoadGame"/>
+                        <Button x:Name="BtnQuit" Content="✕ Quitter" Classes="action" Click="OnQuit"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,6,0,0">
+                        <Button x:Name="BtnSuggest" Content="📌 Nombre de 4 : 0" Classes="action" Click="OnSuggest"/>
+                        <Button x:Name="BtnSuggest3" Content="📌 Nombre de 3 : 0" Classes="action" Click="OnSuggest"/>
+                        <TextBlock x:Name="SuggestionLabel" Text="" Foreground="#10b981" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel x:Name="ScreenEnd" Grid.Row="1" IsVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12"> 
+            <TextBlock x:Name="WinnerTitle" Text="VICTOIRE !" Classes="heading" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="WinnerName" Text="" Foreground="#fff" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="EndScores" Text="" Foreground="#f0f0f0" HorizontalAlignment="Center"/>
+            <Button x:Name="BtnNew" Content="NOUVELLE PARTIE" Classes="action" Click="OnRestart" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

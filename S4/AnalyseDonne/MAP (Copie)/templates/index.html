@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Terrain</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f4f8;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Prediction Prix Terrain</h2>
+
+    <form action="/predict" method="post">
+        <label for="acces">Accès :</label>
+        <select name="acces">
+            <option>bon</option>
+            <option>moyen</option>
+            <option>mauvais</option>
+        </select>
+
+        <label for="distance">Distance (m) :</label>
+        <input type="number" name="distance" placeholder="Distance">
+
+        <label for="batisable">Batisable :</label>
+        <select name="batisable">
+            <option>oui</option>
+            <option>non</option>
+        </select>
+
+        <label for="distance_jirama">Distance JIRAMA :</label>
+        <input type="number" name="distance_jirama" placeholder="Distance JIRAMA">
+
+        <label for="papier">Papier :</label>
+        <select name="papier">
+            <option>titre_borne</option>
+            <option>cadastre</option>
+            <option>fifanolorana</option>
+        </select>
+
+        <label for="commune">Commune :</label>
+        <select name="commune">
+            <option>ivandry</option>
+            <option>alasora</option>
+    1        <option>analamahitsy</option>
+            <option>ambohidratrimo</option>
+            <option>ankadilalana</option>
+            <option>talatamaty</option>
+            <option>ivato</option>
+            <option>ambohimanarina</option>
+        </select>
+
+        <button>Predire</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result">
+            Prix estimé : {{ prediction }} Ar/m²
+        </div>
+    {% endif %}
+
+    <h3>Historique des prédictions</h3>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Acces</th>
+            <th>Distance</th>
+            <th>Batisable</th>
+            <th>JIRAMA</th>
+            <th>Papier</th>
+            <th>Commune</th>
+            <th>Prix</th>
+            <th>Date</th>
+        </tr>
+
+        {% for row in history %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>

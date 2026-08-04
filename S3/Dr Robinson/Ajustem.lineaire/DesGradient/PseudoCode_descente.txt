@@ -1,0 +1,31 @@
+QUOI
+	-on veut une droite y=ax+b
+	-Trouver le coefficients a et b 
+	-Donne : la Dimmension N
+			 le point x0 à xn , y0 à yn
+			 pas d’apprentissage
+			 nombre d’itérations
+	
+COMMENT
+
+Methode de descente du gradient 
+Initialiser a = 0
+Initialiser b = 0
+
+POUR iter = 0 JUSQU’À maxIter FAIRE
+
+    dD_da = 0
+    dD_db = 0
+
+    POUR i = 0 JUSQU’À N-1 FAIRE
+        y_estime = a * x[i] + b
+        erreur   = y[i] - y_estime
+
+        dD_da += -2 * x[i] * erreur
+        dD_db += -2 * erreur
+    FIN POUR
+
+    a = a - α * dD_da
+    b = b - α * dD_db
+
+FIN POUR

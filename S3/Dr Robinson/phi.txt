@@ -1,0 +1,14 @@
+QUOI : 
+     objectif:calcul du puissance d'un phi
+     donne : un nombre phi a calculer ,puissance
+COMMENT :
+    faire un fonction appeler puissance pour trouver la puissance 
+    de phi 
+    float puissance(float phi,int puis)
+    float val=1;
+    for(int i=0; i inf puis, i++)
+           float val *=phi;
+    return val
+    
+    on les appeler seulement dans int main 
+       

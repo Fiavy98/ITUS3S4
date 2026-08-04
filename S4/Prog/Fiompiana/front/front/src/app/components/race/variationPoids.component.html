@@ -1,0 +1,88 @@
+<h2>Variation de Poids</h2>
+
+<div *ngIf="error" style="color:red">{{error}}</div>
+
+<form class="form-card" (ngSubmit)="save()">
+  <div class="form-row">
+    <div class="form-group">
+      <label>Race:</label>
+      <select name="selectedRaceId" [(ngModel)]="selectedRaceId" required>
+        <option [ngValue]="undefined">-- choisir une race --</option>
+        <option *ngFor="let r of races" [ngValue]="r.id">{{r.nom}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Semaine début (S0):</label>
+      <input type="number" name="debutWeek" [(ngModel)]="debutWeek" min="0">
+    </div>
+    <div class="form-group">
+      <label>Semaine fin (Sfin):</label>
+      <input type="number" name="finWeek" [(ngModel)]="finWeek" min="0">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <button type="button" (click)="loadForRace(selectedRaceId)" [disabled]="!selectedRaceId">Charger variations</button>
+      <button type="button" (click)="calcWeightGain()" [disabled]="!selectedRaceId">Calculer gain</button>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Semaine:</label>
+      <input type="number" name="semaine" [(ngModel)]="formModel.semaine" required>
+    </div>
+    <div class="form-group">
+      <label>Race ID:</label>
+      <input type="number" name="race_id" [(ngModel)]="formModel.race_id" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Poids (g):</label>
+      <input type="number" step="0.01" name="poids_g" [(ngModel)]="formModel.poids_g">
+    </div>
+    <div class="form-group">
+      <label>Sakafo (g):</label>
+      <input type="number" step="0.01" name="sakafo_g" [(ngModel)]="formModel.sakafo_g">
+    </div>
+  </div>
+  <div class="form-button">
+    <button type="submit" [disabled]="saving">Créer nouvelle variation</button>
+  </div>
+</form>
+
+<div *ngIf="weightGainResult">
+  <p>Poids début: {{weightGainResult.startWeight}} g</p>
+  <p>Poids fin: {{weightGainResult.endWeight}} g</p>
+  <p>Gain: {{weightGainResult.gain}} g</p>
+</div>
+
+<div *ngIf="loading">Chargement...</div>
+<div *ngIf="!loading && !variation.length">Aucune donnée.</div>
+
+<table border="1" *ngIf="!loading && !error && variation.length">
+  <thead>
+<tr>
+<th>ID</th>
+<th>Semaine</th>
+<th>Race</th>
+<th>Poids (g)</th>
+<th>Sakafo (g)</th>
+
+</tr>
+</thead>
+
+<tbody>
+<tr *ngFor="let v of variation">
+<td>{{v.id}}</td>
+<td>{{v.semaine}}</td>
+<td>{{v.race_nom || v.race_id}}</td>
+<td>{{v.poids_g}}</td>
+<td>{{v.sakafo_g}}</td>
+</tr>
+</tbody>
+
+</table>
+
+<br>
+<a routerLink="/races">Retour</a>

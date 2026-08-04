@@ -1,0 +1,26 @@
+hamorona tabilao CJH (idCours text,jour text,heure text);
+hamorona tabilao CS (idCours text,idSalle text);
+hamorona tabilao ENA (idEtudiant int,Nom text,Adresse text);
+hamorona tabilao CEN (idCours text,idEtudiant int,note text);
+
+ampidiro ao amin'ny CJH (idCours,jour,heure) hoe (Archi,Lu,9h);
+
+ampidiro ao amin'ny CJH (idCours,jour,heure) hoe (Algo,MA,9h);
+ampidiro ao amin'ny CJH (idCours,jour,heure) hoe (Algo,Ve,9h);
+ampidiro ao amin'ny CJH (idCours,jour,heure) hoe (Syst,Ma,1h);
+
+ampidiro ao amin'ny CS (idCours,idSalle) hoe (Archi,S1);
+ampidiro ao amin'ny CS (idCours,idSalle) hoe (Algo,S2);
+ampidiro ao amin'ny CS (idCours,idSalle) hoe (Syst,S1);
+
+ampidiro ao amin'ny ENA (idEtudiant,Nom,Adresse) hoe (100,Toto,Nice);
+ampidiro ao amin'ny ENA (idEtudiant,Nom,Adresse) hoe (200,Tata,Paris);
+ampidiro ao amin'ny ENA (idEtudiant,Nom,Adresse) hoe (300,Titi,Rome);
+
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (Archi,,);
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (Archi,,);
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (Syst,,);
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (Syst,,);
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (Syst,,);
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (Algo,,);
+ampidiro ao amin'ny CEN (idCours,idEtudiant,note) hoe (,,);
