@@ -27,10 +27,7 @@ public class Action implements ActionListener {
     }
 
     public void redessiner() {
-    removeAll();
-    drawBoard();
-    revalidate();
-    repaint();
+
 }
 
     @Override
